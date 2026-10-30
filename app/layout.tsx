@@ -1,26 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { Archivo, Geist } from "next/font/google";
+import Script from "next/script";
 
 import { site } from "@/lib/site";
 
+import "./scrollcraft.css";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["500", "700", "800"],
-  style: ["normal", "italic"],
-  variable: "--font-fraunces",
+  variable: "--font-archivo",
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const geist = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-jakarta",
+  variable: "--font-geist",
   display: "swap",
 });
 
-const title = "Karya Alam – Batu Alam, Kolam, Tebing & Taman Yogyakarta";
+const title = "Karya Alam · Batu, air, dan tanah";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -72,18 +71,23 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7fbfa" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1a19" },
-  ],
+  themeColor: "#0b0c09",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`${fraunces.variable} ${jakarta.variable}`}>
-      <body>{children}</body>
+    <html lang="id" className={`${archivo.variable} ${geist.variable}`}>
+      <body>
+        <noscript>
+          <style>{`[data-sc-in],[data-sc-stagger]>*{opacity:1;transform:none}[data-sc-reveal]{clip-path:none!important}`}</style>
+        </noscript>
+
+        {children}
+
+        <Script src="/scrollcraft.js" strategy="beforeInteractive" />
+      </body>
     </html>
   );
 }

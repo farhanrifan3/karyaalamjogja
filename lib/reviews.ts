@@ -1,6 +1,6 @@
 import type { Review } from "@/lib/types";
 
-export const reviews: readonly Review[] = [
+const allReviews: readonly Review[] = [
   {
     name: "Pak Hendra, Sleman",
     text: "Kerjanya rapi, tepat waktu, hasil sesuai desain. Recommended.",
@@ -56,4 +56,17 @@ export const reviews: readonly Review[] = [
     text: "Tamannya bagus banget, ada batu-batu gedenya. Aku suka main di situ sama kucingku. Kolamnya juga ada ikan oren. Bintang 5 pokoknya! ⭐⭐⭐⭐⭐",
     date: "25 September 2026",
   },
+];
+
+export const reviews = allReviews;
+
+/**
+ * Empat ulasan yang mewakili pekerjaan berbeda: kolam lama, kolam baru,
+ * carport, dan taman. Ulasan lain tetap tersedia lewat Google Maps.
+ */
+export const featuredReviews: readonly Review[] = [
+  allReviews[5],
+  allReviews[6],
+  allReviews[1],
+  allReviews[0],
 ];

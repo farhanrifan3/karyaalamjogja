@@ -1,16 +1,15 @@
-import Link from "next/link";
+import { Cta } from "@/components/ui/Cta";
 
 export default function NotFound() {
   return (
-    <main className="not-found">
-      <span className="eyebrow">404</span>
-      <h1 className="h2">Halaman tidak ditemukan.</h1>
-      <p className="lead">
-        Tautan yang Anda buka mungkin sudah dipindahkan atau tidak tersedia.
+    <main className="not-found ground--dark">
+      <p className="sc-label">404 · Di luar peta</p>
+      <h1 className="sc-display">Halaman ini belum dibangun.</h1>
+      <p>
+        Alamat yang Anda buka tidak ada di pangkalan kami. Kembali ke beranda
+        untuk melihat pekerjaan, batu, dan cara kami bekerja.
       </p>
-      <Link className="btn btn-main" href="/">
-        Kembali ke beranda
-      </Link>
+      <Cta href="/">Kembali ke beranda</Cta>
     </main>
   );
 }

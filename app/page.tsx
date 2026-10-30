@@ -1,14 +1,14 @@
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
-import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { Catalog } from "@/components/sections/Catalog";
-import { Contact } from "@/components/sections/Contact";
-import { Gallery } from "@/components/sections/Gallery";
-import { Hero } from "@/components/sections/Hero";
-import { Process } from "@/components/sections/Process";
-import { Services } from "@/components/sections/Services";
-import { Stats } from "@/components/sections/Stats";
-import { StoneGuide } from "@/components/sections/StoneGuide";
+import { Batu } from "@/components/chapters/Batu";
+import { Kolam } from "@/components/chapters/Kolam";
+import { Layanan } from "@/components/chapters/Layanan";
+import { Pangkalan } from "@/components/chapters/Pangkalan";
+import { Proses } from "@/components/chapters/Proses";
+import { Proyek } from "@/components/chapters/Proyek";
+import { Ulasan } from "@/components/chapters/Ulasan";
+import { Colophon } from "@/components/layout/Colophon";
+import { FolioWall } from "@/components/layout/FolioWall";
+import { TitlePage } from "@/components/layout/TitlePage";
+import { ScrollCraftMount } from "@/components/motion/ScrollCraftMount";
 import { buildLocalBusinessJsonLd } from "@/lib/schema";
 
 export default function HomePage() {
@@ -16,25 +16,24 @@ export default function HomePage() {
 
   return (
     <>
-      <noscript>
-        <style>{`.rv{opacity:1;transform:none}`}</style>
-      </noscript>
+      <a className="skip" href="#isi">
+        Langsung ke isi
+      </a>
 
-      <ScrollReveal />
-      <Navbar />
+      <ScrollCraftMount />
+      <FolioWall />
+      <TitlePage />
 
-      <main>
-        <Hero />
-        <Stats />
-        <Services />
-        <Catalog />
-        <StoneGuide />
-        <Gallery />
-        <Process />
-        <Contact />
+      <main id="isi" tabIndex={-1}>
+        <Pangkalan />
+        <Layanan />
+        <Batu />
+        <Kolam />
+        <Proyek />
+        <Proses />
+        <Ulasan />
+        <Colophon />
       </main>
-
-      <Footer />
 
       <script
         type="application/ld+json"

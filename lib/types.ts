@@ -8,6 +8,8 @@ export type Service = {
 export type Product = {
   name: string;
   description: string;
+  use: string;
+  character: string;
   image: string;
   alt: string;
 };

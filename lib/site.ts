@@ -3,7 +3,9 @@ export const site = {
   description:
     "Karya Alam: spesialis batu alam, kolam, tebing, taman, dan landscape di Sleman, Yogyakarta. Konsultasi desain, RAB, material, pemasangan, dan perawatan.",
   // Isi NEXT_PUBLIC_SITE_URL di production (lihat .env.example).
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, ""),
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://karyaalamjogja.com"
+  ).replace(/\/$/, ""),
   foundedYear: 1986,
   owner: "Farhan Rif’an",
   phone: {
@@ -25,11 +27,4 @@ export const site = {
     facebook: "https://www.facebook.com/share/1CEob1ptzw/?mibextid=wwXIfr",
   },
   consultationMessage: "Halo Karya Alam, saya ingin konsultasi.",
-  navigation: [
-    { label: "Layanan", href: "#layanan" },
-    { label: "Batu Alam", href: "#katalog" },
-    { label: "Portofolio", href: "#galeri" },
-    { label: "Proses", href: "#proses" },
-    { label: "Kontak", href: "#kontak" },
-  ],
 } as const;
