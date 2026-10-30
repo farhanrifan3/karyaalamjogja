@@ -3,6 +3,8 @@ export type Service = {
   title: string;
   description: string;
   items: readonly string[];
+  image: string;
+  alt: string;
 };
 
 export type Product = {

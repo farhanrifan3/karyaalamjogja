@@ -25,11 +25,10 @@ export function Ulasan() {
 
         <div className="quotes">
           {featuredReviews.map((review, index) => (
-            <blockquote
-              className={`quote quote--${index + 1}`}
-              key={`${review.name}-${review.date}`}
-              data-sc-in
-            >
+            <blockquote className="quote" key={`${review.name}-${review.date}`} data-sc-in>
+              <span className="quote__num" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               <p>{review.text}</p>
               <footer>
                 <cite>{review.name}</cite>
@@ -39,7 +38,7 @@ export function Ulasan() {
           ))}
         </div>
 
-        <div className="ulasan__actions" data-sc-in data-sc-stagger="70">
+        <div className="ulasan__actions" data-sc-in>
           <Cta href={site.mapsUrl} external>
             Tulis ulasan di Google Maps
           </Cta>

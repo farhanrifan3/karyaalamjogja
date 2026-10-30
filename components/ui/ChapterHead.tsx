@@ -14,7 +14,7 @@ export function ChapterHead({
   headingId,
 }: ChapterHeadProps) {
   return (
-    <>
+    <header className="chapter__head">
       <p className="chapter__folio">
         <span className="chapter__numeral">{chapter.numeral}</span>
         <span className="chapter__name">{chapter.title}</span>
@@ -23,6 +23,6 @@ export function ChapterHead({
         {heading}
       </h2>
       {lead ? <p className="chapter__lead">{lead}</p> : null}
-    </>
+    </header>
   );
 }

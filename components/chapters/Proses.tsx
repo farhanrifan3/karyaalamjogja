@@ -1,6 +1,8 @@
 import { ChapterHead } from "@/components/ui/ChapterHead";
+import { Cta } from "@/components/ui/Cta";
 import { chapters } from "@/lib/chapters";
 import { processSteps } from "@/lib/process-steps";
+import { whatsappLink } from "@/lib/whatsapp";
 
 const chapter = chapters[5];
 
@@ -34,6 +36,16 @@ export function Proses() {
             </li>
           ))}
         </ol>
+
+        <div className="proses__outro" data-sc-in>
+          <p>
+            Mulai dari cerita soal lokasi Anda. Kami akan menyusun langkah,
+            material, dan anggarannya.
+          </p>
+          <Cta href={whatsappLink()} external>
+            Mulai konsultasi
+          </Cta>
+        </div>
       </div>
     </section>
   );

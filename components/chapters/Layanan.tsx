@@ -1,5 +1,7 @@
+import Image from "next/image";
+
+import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { ChapterHead } from "@/components/ui/ChapterHead";
-import { Cta } from "@/components/ui/Cta";
 import { chapters } from "@/lib/chapters";
 import { services } from "@/lib/services";
 import { whatsappLink } from "@/lib/whatsapp";
@@ -22,28 +24,50 @@ export function Layanan() {
           lead="Tidak semua proyek dimulai dari nol. Ada yang hanya perlu dirawat, diperbaiki, atau diselesaikan."
         />
 
-        <ol className="services">
+        <div className="services">
           {services.map((service) => (
-            <li className="service" key={service.number} data-sc-in>
-              <h3 className="sc-display service__title">{service.title}</h3>
-              <p className="service__text">{service.description}</p>
-              <ul className="service__items">
-                {service.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </li>
+            <article className="service" key={service.number} data-sc-in>
+              <div className="service__media">
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+                />
+                <span className="service__num">{service.number}</span>
+              </div>
+              <div className="service__body">
+                <h3 className="sc-display service__title">{service.title}</h3>
+                <p className="service__text">{service.description}</p>
+                <ul className="service__items">
+                  {service.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
           ))}
-        </ol>
 
-        <div className="chapter__body layanan__outro" data-sc-in data-sc-stagger="70">
-          <p>
-            Belum tahu perlu yang mana? Kirim foto lokasi dan ukuran kasar
-            lahan. Kami bantu tentukan pekerjaan yang paling masuk akal.
-          </p>
-          <Cta href={whatsappLink()} external>
-            Konsultasi via WhatsApp
-          </Cta>
+          <aside className="service service--cta" data-sc-in>
+            <p className="sc-label">Belum yakin?</p>
+            <h3 className="sc-display service__title">
+              Kirim foto lokasi. Kami bantu pilih pekerjaannya.
+            </h3>
+            <p className="service__text">
+              Ukuran kasar lahan sudah cukup. Kami balas dengan langkah paling
+              masuk akal, bukan penawaran yang dipaksakan.
+            </p>
+            <a
+              className="btn-solid btn-solid--inverse"
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Konsultasi via WhatsApp
+              <ArrowIcon />
+            </a>
+          </aside>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import { ChapterHead } from "@/components/ui/ChapterHead";
 import { Lightbox } from "@/components/ui/Lightbox";
@@ -32,11 +32,7 @@ export function Proyek() {
 
         <div className="work">
           {gallery.map((item, index) => (
-            <figure
-              className={`work__item work__item--${index + 1}`}
-              key={item.image}
-              data-sc-in
-            >
+            <figure className="work__item" key={item.image} data-sc-in>
               <button
                 type="button"
                 className="work__button"
@@ -44,17 +40,22 @@ export function Proyek() {
                 aria-label={`Perbesar foto: ${item.caption}`}
                 aria-haspopup="dialog"
               >
-                <span className="frame frame--work">
+                <span className="frame frame--4x3">
                   <Image
                     src={item.image}
                     alt={item.alt}
                     fill
                     loading="lazy"
-                    sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 40vw"
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                   />
                 </span>
               </button>
-              <figcaption className="work__caption">{item.caption}</figcaption>
+              <figcaption className="work__caption">
+                <span className="work__num">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {item.caption}
+              </figcaption>
             </figure>
           ))}
         </div>

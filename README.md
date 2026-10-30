@@ -74,7 +74,7 @@ lib/
   chapters.ts            # daftar bab: id, angka Romawi, judul, label nav
   site.ts                # identitas, alamat, kontak, sosial, URL
   types.ts               # tipe data konten
-  services.ts            # data layanan
+  services.ts            # data layanan + foto kartu
   products.ts            # data enam batu
   gallery.ts             # data portofolio
   reviews.ts             # data ulasan
@@ -86,7 +86,7 @@ lib/
 
 public/
   scrollcraft.js         # engine (vanilla, tanpa dependensi)
-  images/                # 21 foto dari index.html lama
+  images/                # 21 foto proyek + foto stok CC0 untuk hero/kartu
 ```
 
 Menambah, menghapus, atau mengurutkan bab dimulai dari `lib/chapters.ts`.
@@ -116,6 +116,9 @@ Tanpa variabel itu, URL fallback ke `https://karyaalamjogja.com`.
 - Foto sudah dipindahkan ke `public/images/` dan dioptimalkan oleh
   `next/image` (AVIF/WebP). Lightbox memakai berkas asli (`unoptimized`)
   supaya tidak menunggu optimasi saat diklik.
+- Foto hero dan sebagian kartu layanan memakai stok CC0 dari Openverse
+  (pd.w.org, rawpixel, stocksnap); tidak memerlukan atribusi. Foto pekerjaan
+  dan batu tetap foto asli Karya Alam.
 - Form ulasan mengirim ulasan lewat WhatsApp karena project ini tidak memakai
   database. Jika nanti ingin ulasan tersimpan, ganti handler di
   `components/ui/ReviewForm.tsx` dengan API route.
