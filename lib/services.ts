@@ -7,7 +7,7 @@ export const services: readonly Service[] = [
     description: "Koi, megatank, minimalis, dan kolam renang.",
     items: ["Filtrasi & chamber", "Perpipaan sirkulasi", "Perbaikan kebocoran"],
     image: "/images/svc-kolam.jpg",
-    alt: "Koi di kolam taman",
+    alt: "Kolam koi jernih dengan batu alam dan tanaman hijau di tepinya",
   },
   {
     number: "02",

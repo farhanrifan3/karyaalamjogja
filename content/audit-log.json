@@ -1,0 +1,25 @@
+[
+  {
+    "at": "2026-10-31T01:43:16.355Z",
+    "action": "hapus",
+    "product": "Batu Uji Adapter Diubah",
+    "detail": "Foto lama tetap disimpan: /uploads/uji-adapter-mvvqloy7-a8a6.png"
+  },
+  {
+    "at": "2026-10-31T01:43:16.325Z",
+    "action": "urutkan",
+    "product": "Batu Uji Adapter Diubah",
+    "detail": "Naik satu posisi"
+  },
+  {
+    "at": "2026-10-31T01:43:16.256Z",
+    "action": "ubah",
+    "product": "Batu Uji Adapter Diubah"
+  },
+  {
+    "at": "2026-10-31T01:43:16.114Z",
+    "action": "tambah",
+    "product": "Batu Uji Adapter",
+    "detail": "Foto: /uploads/uji-adapter-mvvqloy7-a8a6.png"
+  }
+]

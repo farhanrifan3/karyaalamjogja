@@ -34,7 +34,7 @@ export function TitlePage() {
           </a>
         </div>
 
-        <div className="titlepage__hero">
+        <div className="titlepage__intro">
           <div className="titlepage__copy">
             <p className="sc-label titlepage__eyebrow">
               Batu alam · Kolam · Taman
@@ -42,6 +42,9 @@ export function TitlePage() {
             <h1 className="sc-display titlepage__title">
               Batu, air, dan tanah.
             </h1>
+          </div>
+
+          <div className="titlepage__aside">
             <p className="titlepage__lede">
               Kolam, tebing, taman, dan batu alam di Sleman. Digarap sejak 1986,
               dari desain dan RAB sampai perawatan.
@@ -71,22 +74,23 @@ export function TitlePage() {
               ))}
             </dl>
           </div>
-
-          <figure className="titlepage__figure">
-            <div className="frame frame--4x5">
-              <Image
-                src="/images/hero-koi.jpg"
-                alt="Koi berenang di kolam taman yang jernih"
-                fill
-                priority
-                sizes="(max-width: 900px) 100vw, 42vw"
-              />
-            </div>
-            <figcaption>
-              Kolam koi, Sleman. Air jernih dimulai dari filtrasi yang benar.
-            </figcaption>
-          </figure>
         </div>
+
+        <figure className="titlepage__figure">
+          <div className="frame frame--hero">
+            <Image
+              src="/images/hero-garden.jpg"
+              alt="Ilustrasi taman Jepang dengan kolam koi, air terjun batu, dan rumah kayu"
+              fill
+              priority
+              sizes="(max-width: 1240px) 100vw, 82rem"
+            />
+          </div>
+          <figcaption>
+            Ilustrasi taman dan kolam koi. Foto pekerjaan Karya Alam ada di bab
+            Proyek.
+          </figcaption>
+        </figure>
 
         <nav className="titlepage__index" aria-label="Isi halaman">
           <p className="sc-label">Isi</p>

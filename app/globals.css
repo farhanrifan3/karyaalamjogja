@@ -8,13 +8,13 @@
    ========================================================================== */
 
 :root {
-  --sc-canvas: #0b0c09;
-  --sc-surface: #14150f;
-  --sc-surface-2: #1c1e15;
-  --sc-ink: #ece7d9;
-  --sc-ink-soft: #a3a08f;
-  --sc-accent: #b3c47a;
-  --sc-accent-ink: #12140b;
+  --sc-canvas: #081715;
+  --sc-surface: #102521;
+  --sc-surface-2: #17312c;
+  --sc-ink: #f0e8d6;
+  --sc-ink-soft: #a5b3aa;
+  --sc-accent: #3fbfae;
+  --sc-accent-ink: #06211d;
 
   --sc-font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
   --sc-font-text: var(--font-geist), "Geist", system-ui, sans-serif;
@@ -32,7 +32,7 @@
   --sc-r-md: 10px;
   --sc-r-lg: 16px;
 
-  --sc-shadow-color: 60 24% 2%;
+  --sc-shadow-color: 176 45% 2%;
 
   --brand-margin: 88px;
 }
@@ -45,17 +45,17 @@
 /* A hard cut of ground, not a drift. Every inherited value that resolves from
    a token has to be restated here or it keeps the dark family's value. */
 .ground--light {
-  --sc-canvas: #e9e6da;
-  --sc-surface: #f4f1e6;
-  --sc-surface-2: #dedac9;
-  --sc-ink: #17180f;
-  --sc-ink-soft: #565845;
-  --sc-accent: #4b5a24;
-  --sc-accent-ink: #f4f1e6;
+  --sc-canvas: #efe7d4;
+  --sc-surface: #f8f2e1;
+  --sc-surface-2: #e4dac4;
+  --sc-ink: #132a26;
+  --sc-ink-soft: #526660;
+  --sc-accent: #1c7a6d;
+  --sc-accent-ink: #f8f2e1;
   --sc-hairline: color-mix(in oklab, var(--sc-ink) 15%, transparent);
   --sc-hairline-strong: color-mix(in oklab, var(--sc-ink) 28%, transparent);
   --sc-edge: inset 0 1px 0 color-mix(in oklab, #ffffff 65%, transparent);
-  --sc-shadow-color: 70 22% 22%;
+  --sc-shadow-color: 176 30% 20%;
   background: var(--sc-canvas);
   color: var(--sc-ink);
 }
@@ -244,15 +244,14 @@ p {
   padding: clamp(1rem, 2vw, 1.5rem) var(--sc-gutter)
     clamp(1.25rem, 2.4vw, 2rem);
   background:
-    radial-gradient(90% 70% at 78% -10%, #1a1d12 0%, transparent 56%),
+    radial-gradient(90% 70% at 78% -10%, #10302a 0%, transparent 56%),
     var(--sc-canvas);
   overflow: clip;
 }
 
 .titlepage__inner {
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: clamp(1.5rem, 4vh, 3rem);
+  gap: clamp(1.5rem, 3.5vh, 2.5rem);
   width: 100%;
   max-width: var(--sc-maxw);
   margin-inline: auto;
@@ -308,17 +307,24 @@ p {
   }
 }
 
-.titlepage__hero {
+.titlepage__intro {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   gap: clamp(1.5rem, 4vw, 4rem);
-  align-items: center;
+  align-items: end;
 }
 
 .titlepage__copy {
   display: grid;
   gap: clamp(1rem, 2vw, 1.4rem);
-  align-content: center;
+  align-content: start;
+}
+
+.titlepage__aside {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.4rem);
+  align-content: start;
+  padding-bottom: 0.25rem;
 }
 
 .titlepage__eyebrow {
@@ -326,8 +332,8 @@ p {
 }
 
 .titlepage__title {
-  max-width: 12ch;
-  font-size: clamp(3rem, 8vw, 6.4rem);
+  max-width: 14ch;
+  font-size: clamp(2.9rem, 6.8vw, 5.8rem);
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 0.9;
@@ -354,7 +360,7 @@ p {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
-  margin: 0.75rem 0 0;
+  margin: 0.25rem 0 0;
   border-top: 1px solid var(--sc-hairline);
 }
 
@@ -390,8 +396,7 @@ p {
 }
 
 .titlepage__figure .frame {
-  aspect-ratio: 5 / 6;
-  max-height: 56svh;
+  aspect-ratio: 3 / 2;
   border-radius: var(--sc-r-lg);
 }
 
@@ -883,6 +888,23 @@ p {
   color: var(--sc-ink-soft);
   font-size: var(--sc-t-sm);
   line-height: 1.55;
+}
+
+.stones__empty {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  border: 1px dashed var(--sc-hairline-strong);
+  border-radius: var(--sc-r-lg);
+  background: var(--sc-surface);
+}
+
+.stones__empty p:not(.sc-label) {
+  max-width: 56ch;
+  color: var(--sc-ink-soft);
+  line-height: 1.6;
 }
 
 /* ==========================================================================
@@ -1830,7 +1852,7 @@ a.masthead__line:hover {
   display: grid;
   place-items: center;
   padding: clamp(1rem, 4vw, 3rem);
-  background: color-mix(in oklab, #070805 94%, transparent);
+  background: color-mix(in oklab, #04110f 94%, transparent);
   cursor: zoom-out;
 }
 
@@ -1917,22 +1939,14 @@ a.masthead__line:hover {
 }
 
 @media (max-width: 960px) {
-  .titlepage__hero {
+  .titlepage__intro {
     grid-template-columns: minmax(0, 1fr);
-    gap: clamp(1.5rem, 4vw, 2.5rem);
-  }
-
-  .titlepage__figure .frame {
-    aspect-ratio: 4 / 3;
-    max-height: 48svh;
-  }
-
-  .titlepage__figure {
-    order: -1;
+    gap: clamp(1.25rem, 4vw, 2rem);
+    align-items: start;
   }
 
   .titlepage__title {
-    max-width: 14ch;
+    max-width: 16ch;
   }
 
   .chapter__head {

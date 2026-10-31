@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     description: site.description,
     images: [
       {
-        url: "/images/pangkalan.jpg",
-        width: 800,
-        height: 600,
-        alt: "Pangkalan Karya Alam di Ngaglik, Sleman",
+        url: "/images/hero-garden.jpg",
+        width: 1536,
+        height: 1024,
+        alt: "Ilustrasi taman Jepang dengan kolam koi dan air terjun batu",
       },
     ],
   },
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description: site.description,
-    images: ["/images/pangkalan.jpg"],
+    images: ["/images/hero-garden.jpg"],
   },
   robots: {
     index: true,
@@ -71,7 +71,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0b0c09",
+  themeColor: "#081715",
 };
 
 export default function RootLayout({

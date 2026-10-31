@@ -10,7 +10,7 @@ export function buildLocalBusinessJsonLd() {
     description: site.description,
     url: site.url,
     telephone: site.phone.e164,
-    image: `${site.url}/images/pangkalan.jpg`,
+    image: `${site.url}/images/hero-garden.jpg`,
     foundingDate: String(site.foundedYear),
     founder: {
       "@type": "Person",
