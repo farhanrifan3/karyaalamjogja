@@ -19,7 +19,6 @@
   --a-radius: 16px;
 
   min-height: 100svh;
-  padding-bottom: 4rem;
   background:
     radial-gradient(80% 60% at 85% -10%, #10302a 0%, transparent 60%),
     var(--a-canvas);
@@ -41,25 +40,37 @@
 
 .admin a {
   color: inherit;
+  text-decoration: none;
 }
 
-.admin-top {
+/* Side-Nav Layout */
+.admin-shell {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  min-height: 100svh;
+}
+
+@media (max-width: 960px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-sidebar {
   position: sticky;
   top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--a-line);
+  background: color-mix(in oklab, var(--a-canvas) 92%, #000);
+  overflow-y: auto;
   z-index: 50;
-  border-bottom: 1px solid var(--a-line);
-  background: color-mix(in oklab, var(--a-canvas) 88%, transparent);
-  backdrop-filter: blur(14px);
 }
 
-.admin-top__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-  width: min(100%, 78rem);
-  margin-inline: auto;
-  padding: 0.9rem clamp(1.1rem, 3vw, 2.5rem);
+.admin-sidebar__top {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--a-line);
 }
 
 .admin-brand {
@@ -83,35 +94,119 @@
   text-transform: uppercase;
 }
 
-.admin-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 1.35rem;
+.admin-sidebar__nav {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.admin-sidebar__group {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.admin-sidebar__label {
+  color: var(--a-soft);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.admin-sidebar__link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  color: var(--a-ink);
   font-size: 0.86rem;
+  font-weight: 500;
+  transition:
+    background 160ms var(--sc-ease-out),
+    color 160ms var(--sc-ease-out);
+}
+
+.admin-sidebar__link:hover {
+  background: var(--a-surface-2);
+  color: var(--a-accent);
+}
+
+.admin-sidebar__foot {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border-top: 1px solid var(--a-line);
+  background: color-mix(in oklab, var(--a-surface) 40%, transparent);
+}
+
+.admin-sidebar__site {
+  color: var(--a-accent);
+  font-size: 0.82rem;
   font-weight: 600;
 }
 
-.admin-nav a,
-.admin-nav__out {
-  padding: 0.35rem 0;
-  border: 0;
-  background: none;
-  color: var(--a-soft);
-  font: inherit;
-  cursor: pointer;
-  transition: color 160ms var(--sc-ease-out);
+.admin-sidebar__site:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.admin-nav a:hover,
-.admin-nav__out:hover {
-  color: var(--a-accent);
+.admin-sidebar__out {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--a-line-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--a-danger);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 160ms var(--sc-ease-out),
+    border-color 160ms var(--sc-ease-out);
+}
+
+.admin-sidebar__out:hover {
+  background: color-mix(in oklab, var(--a-danger) 12%, transparent);
+  border-color: var(--a-danger);
+}
+
+.admin-content-area {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid var(--a-line);
+  background: color-mix(in oklab, var(--a-canvas) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.admin-topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  width: min(100%, 78rem);
+  margin-inline: auto;
+  padding: 0.85rem clamp(1.1rem, 3vw, 2.5rem);
+}
+
+.admin-topbar__role {
+  color: var(--a-soft);
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
 .admin-main {
   width: min(100%, 78rem);
   margin-inline: auto;
-  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 3vw, 2.5rem) 0;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 3vw, 2.5rem) 4rem;
 }
 
 .admin-page {
