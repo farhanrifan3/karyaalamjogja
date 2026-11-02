@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-02T00:00:00.000Z",
+  "hero": {
+    "headline": "Pangkalan Batu Alam, Kolam, & Lanskap Yogyakarta Sejak 1986",
+    "subheadline": "Menyediakan batu alam pilihan langsung dari tambang, keahlian pembuatan kolam koi bergaransi kedap air 100%, taman tropis, dan tebing dekoratif untuk hunian maupun area komersial di Sleman dan Yogyakarta.",
+    "image": "/images/hero-garden.jpg",
+    "alt": "Taman kolam koi Karya Alam Yogyakarta",
+    "ctaText": "Lihat Katalog Batu",
+    "ctaLink": "#batu"
+  },
+  "promos": [
+    {
+      "id": "promo-andesit-rta",
+      "title": "Paket Fasad Natural Andesit RTA",
+      "description": "Potongan alami bergaris tegas untuk pilar, pagar, dan fasad rumah minimalis modern.",
+      "image": "/images/andesit-rta.jpg",
+      "label": "Promo",
+      "hargaNormal": "Rp185.000 /m²",
+      "hargaPromo": "Rp155.000 /m²",
+      "mulaiTayang": "2026-11-01",
+      "selesaiTayang": "2026-11-30",
+      "aktif": true,
+      "urutan": 1
+    },
+    {
+      "id": "promo-kolam-koi",
+      "title": "Jasa Pembuatan Kolam Koi + Filtrasi",
+      "description": "Garansi konstruksi kedap air 100% lengkap dengan chamber filtrasi dan air terjun batu.",
+      "image": "/images/kolam-koi-minimalis.jpg",
+      "label": "Terlaris",
+      "hargaNormal": "Rp1.100.000 /m²",
+      "hargaPromo": "Rp900.000 /m²",
+      "mulaiTayang": "2026-11-01",
+      "selesaiTayang": "2026-12-31",
+      "aktif": true,
+      "urutan": 2
+    }
+  ]
+}

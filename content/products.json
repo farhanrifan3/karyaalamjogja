@@ -1,60 +1,155 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-31T01:43:16.355Z",
+  "updatedAt": "2026-11-02T00:00:00.000Z",
+  "categories": [
+    { "id": "andesit", "name": "Batu Andesit", "slug": "andesit", "description": "Varian RTA & RTM untuk fasad, pilar, dan dinding modern.", "image": "/images/batu-andesit.jpg", "urutan": 1 },
+    { "id": "candi", "name": "Batu Candi", "slug": "candi", "description": "Lempeng hitam pekat berpori halus dengan kesan tegas.", "image": "/images/batu-candi.jpg", "urutan": 2 },
+    { "id": "kali", "name": "Batu Kali", "slug": "kali", "description": "Batu sungai alami aneka ukuran untuk taman dan kolam.", "image": "/images/batu-kali.jpg", "urutan": 3 },
+    { "id": "koral", "name": "Koral & Batu Sikat", "slug": "koral", "description": "Koral aneka warna untuk carport, koral sikat, dan taman.", "image": "/images/koral-batu-sikat.jpg", "urutan": 4 },
+    { "id": "palimanan", "name": "Batu Palimanan", "slug": "palimanan", "description": "Batu krem berurat alami yang memberikan kesan hangat.", "image": "/images/batu-palimanan.jpg", "urutan": 5 },
+    { "id": "templek", "name": "Batu Tempel Acak", "slug": "templek", "description": "Lempeng pipih tak beraturan untuk dinding dan tebing.", "image": "/images/batu-lempengan.jpg", "urutan": 6 }
+  ],
   "items": [
     {
-      "id": "batu-andesit",
-      "name": "Batu Andesit",
-      "description": "Keras, gelap, dan tenang. Banyak dipakai untuk bidang yang lebar.",
-      "use": "Dinding, lantai, fasad",
-      "character": "Keras, gelap, tahan lama",
-      "image": "/images/batu-andesit.jpg",
-      "alt": "Batu andesit"
+      "id": "batu-andesit-rta",
+      "categoryId": "andesit",
+      "name": "Batu Andesit RTA (Rata Alam)",
+      "description": "Sisi depan dibiarkan sesuai belahan alami batu, tanpa diratakan mesin. Menghadirkan kesan kokoh dan natural berkarakter kuat.",
+      "use": ["Fasad", "Pilar", "Pagar", "Taman"],
+      "character": "Kasar, menonjol, bergelombang, bayangan dinamis",
+      "image": "/images/andesit-rta.jpg",
+      "alt": "Batu andesit rata alam RTA",
+      "status": "tampil",
+      "label": "Terlaris",
+      "urutan": 1,
+      "sizes": [
+        { "label": "15×30 cm", "satuan": "m²", "aktif": true },
+        { "label": "20×40 cm", "satuan": "m²", "aktif": true },
+        { "label": "30×60 cm", "satuan": "m²", "aktif": true }
+      ],
+      "comparison": {
+        "permukaan": "Kasar, menonjol, bergelombang, bayangan dinamis",
+        "kesan": "Kokoh, natural, berkarakter kuat",
+        "perawatan": "Rutin dibersihkan + coating khusus (lebih berongga)",
+        "cocokUntuk": "Fasad gaya natural, pilar, pagar, taman"
+      }
     },
     {
-      "id": "batu-palimanan",
-      "name": "Batu Palimanan",
-      "description": "Warna krem dengan garis alami yang tidak pernah sama.",
-      "use": "Dinding, tiang, pagar",
-      "character": "Krem, bergaris, hangat",
-      "image": "/images/batu-palimanan.jpg",
-      "alt": "Batu palimanan"
+      "id": "batu-andesit-rtm",
+      "categoryId": "andesit",
+      "name": "Batu Andesit RTM (Rata Mesin)",
+      "description": "Permukaan dipotong dan dihaluskan pakai mesin. Bersih, rapi, dan seragam untuk gaya modern minimalis.",
+      "use": ["Dinding Interior", "Fasad Modern", "Pilar"],
+      "character": "Rata, halus, rapi, seragam",
+      "image": "/images/andesit-rtm.jpg",
+      "alt": "Batu andesit rata mesin RTM",
+      "status": "tampil",
+      "label": "Baru",
+      "urutan": 2,
+      "sizes": [
+        { "label": "15×30 cm", "satuan": "m²", "aktif": true },
+        { "label": "20×40 cm", "satuan": "m²", "aktif": true },
+        { "label": "30×60 cm", "satuan": "m²", "aktif": true }
+      ],
+      "comparison": {
+        "permukaan": "Rata, halus, rapi, seragam",
+        "kesan": "Bersih, modern, minimalis",
+        "perawatan": "Lebih mudah dibersihkan dan dipasang (bentuk presisi)",
+        "cocokUntuk": "Dinding interior maupun eksterior modern"
+      }
     },
     {
       "id": "batu-candi",
-      "name": "Batu Candi",
-      "description": "Hitam pekat dengan pori halus. Tegas tanpa banyak bayangan.",
-      "use": "Dinding luar, pagar",
-      "character": "Hitam pekat, berpori",
+      "categoryId": "candi",
+      "name": "Batu Candi Hitam",
+      "description": "Hitam pekat dengan pori halus. Tegas tanpa banyak bayangan, sangat cocok untuk pagar dan dinding luar.",
+      "use": ["Dinding Luar", "Pagar", "Ornamen Kolam"],
+      "character": "Hitam pekat, berpori, klasik",
       "image": "/images/batu-candi.jpg",
-      "alt": "Batu candi"
+      "alt": "Batu candi hitam",
+      "status": "tampil",
+      "label": "Klasik",
+      "urutan": 3,
+      "sizes": [
+        { "label": "10×20 cm", "satuan": "m²", "aktif": true },
+        { "label": "15×30 cm", "satuan": "m²", "aktif": true },
+        { "label": "20×40 cm", "satuan": "m²", "aktif": true }
+      ],
+      "comparison": {
+        "permukaan": "Berpori halus, matang",
+        "kesan": "Eksotis, candi klasik, teduh",
+        "perawatan": "Perlu dilapisi anti lumut berkala",
+        "cocokUntuk": "Pagar, dinding luar, pilar candi"
+      }
     },
     {
-      "id": "batu-lempengan",
-      "name": "Batu Lempengan",
-      "description": "Pecahan lempeng dengan motif acak, disusun seperti peta.",
-      "use": "Dinding, tebing",
-      "character": "Motif acak, tipis",
-      "image": "/images/batu-lempengan.jpg",
-      "alt": "Batu lempengan"
-    },
-    {
-      "id": "koral-batu-sikat",
+      "id": "batu-koral",
+      "categoryId": "koral",
       "name": "Koral & Batu Sikat",
-      "description": "Permukaan kasar yang tidak licin saat hujan.",
-      "use": "Carport, halaman, jalur taman",
-      "character": "Kasar, tidak licin",
+      "description": "Ukuran halus hingga super kasar untuk carport dan koral sikat taman yang tidak licin.",
+      "use": ["Carport", "Halaman", "Jalur Taman"],
+      "character": "Kasar, tidak licin, warna alami",
       "image": "/images/koral-batu-sikat.jpg",
-      "alt": "Batu koral dan batu sikat"
+      "alt": "Koral dan batu sikat",
+      "status": "tampil",
+      "label": "Terlaris",
+      "urutan": 4,
+      "sizes": [
+        { "label": "Halus (5-10 mm)", "satuan": "sak", "aktif": true },
+        { "label": "Sedang (10-15 mm)", "satuan": "sak", "aktif": true },
+        { "label": "Kasar (15-20 mm)", "satuan": "sak", "aktif": true }
+      ],
+      "comparison": {
+        "permukaan": "Bulat / potong poles",
+        "kesan": "Segar, dekoratif lantai",
+        "perawatan": "Minim perawatan",
+        "cocokUntuk": "Lantai carport, taburan pot, sikat lantai"
+      }
     },
     {
-      "id": "batu-kali-sungai",
-      "name": "Batu Kali & Sungai",
-      "description": "Bulat karena air, dipakai sebagai aksen yang tidak dibuat-buat.",
-      "use": "Taman, kolam, tebing air",
-      "character": "Bulat, alami",
-      "image": "/images/batu-kali.jpg",
-      "alt": "Batu kali"
+      "id": "batu-palimanan",
+      "categoryId": "palimanan",
+      "name": "Batu Palimanan Krem",
+      "description": "Warna krem dengan garis urat alami yang memberikan kehangatan pada dinding dan tiang rumah.",
+      "use": ["Dinding", "Tiang", "Pagar"],
+      "character": "Krem, bergaris, hangat",
+      "image": "/images/batu-palimanan.jpg",
+      "alt": "Batu palimanan krem",
+      "status": "tampil",
+      "label": "Populer",
+      "urutan": 5,
+      "sizes": [
+        { "label": "20×40 cm", "satuan": "m²", "aktif": true },
+        { "label": "30×30 cm", "satuan": "m²", "aktif": true }
+      ],
+      "comparison": {
+        "permukaan": "Agak lunak berurat",
+        "kesan": "Hangat, cerah, natural",
+        "perawatan": "Perlu coating pelindung batu cerah",
+        "cocokUntuk": "Dinding aksen, pilar teras"
+      }
+    },
+    {
+      "id": "batu-templek",
+      "categoryId": "templek",
+      "name": "Batu Tempel Acak",
+      "description": "Pecahan lempeng batu alam dengan motif acak alami, disusun menyerupai puzzle artistik.",
+      "use": ["Dinding", "Tebing", "Pilar"],
+      "character": "Acak, lempeng pipih, natural",
+      "image": "/images/batu-lempengan.jpg",
+      "alt": "Batu tempel acak",
+      "status": "tampil",
+      "label": "Artistik",
+      "urutan": 6,
+      "sizes": [
+        { "label": "Acak Standar", "satuan": "m²", "aktif": true }
+      ],
+      "comparison": {
+        "permukaan": "Belahan alami acak",
+        "kesan": "Artistik, tidak kaku",
+        "perawatan": "Pembersihan berkala + coating",
+        "cocokUntuk": "Dinding pagar, tebing buatan"
+      }
     }
   ]
 }

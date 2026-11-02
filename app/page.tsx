@@ -8,6 +8,8 @@ import { Ulasan } from "@/components/chapters/Ulasan";
 import { Colophon } from "@/components/layout/Colophon";
 import { FolioWall } from "@/components/layout/FolioWall";
 import { TitlePage } from "@/components/layout/TitlePage";
+import { TopNav } from "@/components/layout/TopNav";
+import { ChatbotWidget } from "@/components/ui/ChatbotWidget";
 import { ScrollCraftMount } from "@/components/motion/ScrollCraftMount";
 import { buildLocalBusinessJsonLd } from "@/lib/schema";
 
@@ -21,7 +23,7 @@ export default function HomePage() {
       </a>
 
       <ScrollCraftMount />
-      <FolioWall />
+      <TopNav />
       <TitlePage />
 
       <main id="isi" tabIndex={-1}>
@@ -34,6 +36,8 @@ export default function HomePage() {
         <Ulasan />
         <Colophon />
       </main>
+
+      <ChatbotWidget />
 
       <script
         type="application/ld+json"

@@ -28,32 +28,41 @@ export default async function PanelLayout({
 
           <div className="admin-sidebar__group">
             <span className="admin-sidebar__label">Konten Publik</span>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/hero" className="admin-sidebar__link">
               Hero & Promo
             </Link>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/profil" className="admin-sidebar__link">
               Profil Karya Alam
             </Link>
             <Link href="/admin/katalog" className="admin-sidebar__link">
               Katalog Batu Alam
             </Link>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/services" className="admin-sidebar__link">
               Layanan & Maintenance
             </Link>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/testimoni" className="admin-sidebar__link">
               Testimoni & Moderasi
+            </Link>
+            <Link href="/admin/harga" className="admin-sidebar__link">
+              Harga & Master RAB
             </Link>
           </div>
 
           <div className="admin-sidebar__group">
             <span className="admin-sidebar__label">Sistem & Aset</span>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/media" className="admin-sidebar__link">
               Media Library
             </Link>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/finance" className="admin-sidebar__link">
+              Kasir & Keuangan
+            </Link>
+            <Link href="/admin/laporan" className="admin-sidebar__link">
+              Laporan Analitik
+            </Link>
+            <Link href="/admin/settings" className="admin-sidebar__link">
               Pengaturan & Brand
             </Link>
-            <Link href="/admin/katalog" className="admin-sidebar__link">
+            <Link href="/admin/audit" className="admin-sidebar__link">
               Audit Log
             </Link>
           </div>

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-02T00:00:00.000Z",
+  "title": "Karya Alam · Berakar di Yogyakarta Sejak 1986",
+  "narrative": "Karya Alam berdiri di Dayakan, Sardonoharjo, Ngaglik, Sleman, Yogyakarta sejak tahun 1986. Bermula dari kecintaan terhadap keindahan material bumi, kami mendedikasikan diri untuk menghadirkan batu alam berkualitas, kolam koi bergaransi, dan lanskap asri yang menyatu dengan karakter arsitektur Anda.\n\nDalam setiap pengerjaan, kami mengutamakan transparansi RAB sebelum proyek dimulai, mendengarkan kebutuhan dan anggaran Anda terlebih dahulu, serta memastikan pengerjaan rapi dikerjakan oleh tukang berpengalaman puluhan tahun.",
+  "images": [
+    "/images/pangkalan.jpg",
+    "/images/taman-minimalis.jpg"
+  ],
+  "stats": [
+    { "value": "1986", "label": "Tahun Berdiri" },
+    { "value": "1.400+", "label": "Proyek Selesai" },
+    { "value": "Sleman", "label": "Wilayah Yogyakarta" }
+  ]
+}

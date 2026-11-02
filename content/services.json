@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-02T00:00:00.000Z",
+  "services": [
+    {
+      "id": "kolam-koi",
+      "name": "Jasa Pembuatan Kolam Koi",
+      "description": "Termasuk tebing kolam koi, air terjun & fitur air, sistem filtrasi dan chamber, serta jalur perpipaan sirkulasi bergaransi kedap air 100%.",
+      "image": "/images/kolam-koi-minimalis.jpg",
+      "checklist": [
+        "Desain & tata letak sirkulasi",
+        "Konstruksi beton bertulang kedap air 100%",
+        "Sistem chamber filtrasi multi-sekat",
+        "Pemasangan batu ornamen & air terjun"
+      ],
+      "urutan": 1,
+      "aktif": true
+    },
+    {
+      "id": "kolam-renang",
+      "name": "Jasa Pembuatan Kolam Renang",
+      "description": "Pembangunan kolam renang pribadi atau komersial dengan sistem sirkulasi skimmer atau overflow dan finishing batu alam pilihan.",
+      "image": "/images/kolam-renang.jpg",
+      "checklist": [
+        "Penggalian & struktur beton kokoh",
+        "Sistem filtrasi & pompa berkualitas",
+        "Finishing dinding & bibir kolam batu alam",
+        "Uji tekanan air & garansi struktur"
+      ],
+      "urutan": 2,
+      "aktif": true
+    },
+    {
+      "id": "kolam-ras",
+      "name": "Jasa Pembuatan Kolam Budidaya (RAS)",
+      "description": "Pembuatan sistem kolam budidaya ikan berteknologi Recirculating Aquaculture System (RAS) skala intensif.",
+      "image": "/images/kolam-megatank.jpg",
+      "checklist": [
+        "Desain modular kolam produksi",
+        "Instalasi aerasi & filter biologi",
+        "Pipa pembuangan kotoran otomatis",
+        "Efisiensi sirkulasi air tinggi"
+      ],
+      "urutan": 3,
+      "aktif": true
+    },
+    {
+      "id": "taman",
+      "name": "Jasa Pembuatan Taman",
+      "description": "Taman minimalis, tropis, dan batu alam untuk depan/belakang rumah, kantor, serta tempat usaha dengan kombinasi tanaman pilihan.",
+      "image": "public/images/taman-minimalis.jpg",
+      "checklist": [
+        "Olah tanah & perbaikan kontur",
+        "Pemilihan tanaman hias & rumput berkualitas",
+        "Kombinasi batu koral & stepping stone",
+        "Pencahayaan taman (garden lighting)"
+      ],
+      "urutan": 4,
+      "aktif": true
+    },
+    {
+      "id": "tebing",
+      "name": "Jasa Pembuatan Tebing & Water Wall",
+      "description": "Pembuatan tebing batu alam buatan, air terjun relief, dan dinding air (water wall) untuk interior maupun eksterior.",
+      "image": "/images/tebing-air-terjun.jpg",
+      "checklist": [
+        "Kerangka kawat & adukan relief artistik",
+        "Penyusunan batu kali & relief tebing",
+        "Instalasi pompa air terjun",
+        "Finishing anti lumut & coating"
+      ],
+      "urutan": 5,
+      "aktif": true
+    },
+    {
+      "id": "pemasangan-batu",
+      "name": "Jasa Pemasangan Batu Alam",
+      "description": "Spesialis pasang batu alam untuk dekor halaman, dinding, pagar, fasad, lantai, dan carport batu sikat oleh tukang berpengalaman.",
+      "image": "/images/carport-batu-sikat.jpg",
+      "checklist": [
+        "Pemasangan rapi siku & nat presisi",
+        "Pemasangan carport batu sikat & koral",
+        "Pemberian lapisan pelindung (coating)",
+        "Pembersihan akhir lokasi proyek"
+      ],
+      "urutan": 6,
+      "aktif": true
+    },
+    {
+      "id": "konsultasi-material",
+      "name": "Jual Batu Alam & Konsultasi Material",
+      "description": "Penyediaan batu alam langsung dari pangkalan dengan rekomendasi jenis batu sesuai lokasi, konsep, dan perhitungan kebutuhan material.",
+      "image": "/images/pangkalan.jpg",
+      "checklist": [
+        "Pilihan lengkap dari 6 kategori utama",
+        "Rekomendasi batu tahan cuaca ekstrim",
+        "Hitung kebutuhan m² akurat",
+        "Pengiriman aman sampai lokasi"
+      ],
+      "urutan": 7,
+      "aktif": true
+    },
+    {
+      "id": "maintenance",
+      "name": "Paket Maintenance (Mingguan & Bulanan)",
+      "description": "Paket perawatan kolam dan batu alam berkala untuk menjaga keindahan dan keandalan sistem.",
+      "image": "/images/tebing-kolam-koi.jpg",
+      "checklist": [
+        "Pembersihan lumut & permukaan batu",
+        "Perbaikan nat & penambalan kebocoran",
+        "Pengecatan & coating ulang pelindung",
+        "Pembersihan filter kolam & perpipaan"
+      ],
+      "urutan": 8,
+      "aktif": true
+    }
+  ],
+  "maintenancePackages": [
+    {
+      "id": "mingguan",
+      "frequency": "Mingguan",
+      "title": "Paket Perawatan Berkala Mingguan",
+      "description": "Perawatan rutin untuk menjaga kejernihan air kolam dan kebersihan permukaan batu.",
+      "tasks": [
+        "Pembersihan kotoran & sampah permukaan kolam",
+        "Pengecekan sirkulasi pompa & fungsi aerator",
+        "Pembersihan filter mekanis ringan"
+      ],
+      "aktif": true
+    },
+    {
+      "id": "bulanan",
+      "frequency": "Bulanan",
+      "title": "Paket Perawatan Menyeluruh Bulanan",
+      "description": "Perawatan mendalam termasuk kuras chamber, cuci batu alam, dan pengecekan struktur.",
+      "tasks": [
+        "Pembersihan total chamber filter & media",
+        "Pencucian permukaan batu alam + sikat lumut",
+        "Pengecekan perpipaan & penambalan ringan bila ada rembesan",
+        "Aplikasi ulang coating pelindung batu (sesuai kebutuhan)"
+      ],
+      "aktif": true
+    }
+  ]
+}

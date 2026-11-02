@@ -1,41 +1,30 @@
 "use client";
 
-import type { FormEvent } from "react";
 import { useState } from "react";
-
-import { formatIndonesianDate } from "@/lib/format-date";
-import { whatsappLink } from "@/lib/whatsapp";
+import { submitReviewAction } from "@/app/admin/reviews-actions";
 
 export function ReviewForm() {
-  const [name, setName] = useState("");
-  const [text, setText] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const date = formatIndonesianDate();
-    const message = [
-      "Halo Karya Alam, saya ingin mengirim ulasan.",
-      `Nama: ${name}`,
-      `Tanggal: ${date}`,
-      `Ulasan: ${text}`,
-    ].join("\n");
-
-    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
-    setStatus(
-      "Terima kasih. WhatsApp terbuka di tab baru untuk mengirim ulasan Anda.",
-    );
+  async function handleSubmit(formData: FormData) {
+    setLoading(true);
+    try {
+      await submitReviewAction(formData);
+      setStatus("Terima kasih! Ulasan Anda telah terkirim dan akan ditampilkan setelah disetujui oleh admin.");
+    } catch {
+      setStatus("Terjadi kesalahan saat mengirim ulasan. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <form className="review-form" onSubmit={handleSubmit}>
+    <form className="review-form" action={handleSubmit}>
       <label className="field">
         <span className="field__label">Nama dan daerah</span>
         <input
           name="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
           placeholder="Contoh: Pak Hendra, Sleman"
           required
           maxLength={60}
@@ -44,11 +33,18 @@ export function ReviewForm() {
       </label>
 
       <label className="field">
+        <span className="field__label">Beri Rating</span>
+        <select name="rating" defaultValue="5" className="field__input" style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--a-line)", background: "var(--a-card)", color: "var(--a-text)", fontSize: "0.95rem" }}>
+          <option value="5">⭐⭐⭐⭐⭐ (5/5 Sangat Puas)</option>
+          <option value="4">⭐⭐⭐⭐ (4/5 Puas)</option>
+          <option value="3">⭐⭐⭐ (3/5 Cukup)</option>
+        </select>
+      </label>
+
+      <label className="field">
         <span className="field__label">Ulasan</span>
         <textarea
-          name="review"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
+          name="text"
           rows={4}
           placeholder="Tulis pengalaman Anda bersama Karya Alam"
           required
@@ -57,16 +53,16 @@ export function ReviewForm() {
       </label>
 
       <div className="review-form__action">
-        <button className="btn-solid" type="submit">
-          Kirim lewat WhatsApp
+        <button className="btn-solid" type="submit" disabled={loading}>
+          {loading ? "Mengirim..." : "Kirim Ulasan ke Website"}
         </button>
         <small>
-          Ulasan dikirim lewat WhatsApp agar bisa langsung ditanggapi.
+          Ulasan Anda akan dimoderasi oleh admin sebelum tampil di beranda publik.
         </small>
       </div>
 
       {status ? (
-        <p className="form-status" role="status" aria-live="polite">
+        <p className="form-status" role="status" aria-live="polite" style={{ marginTop: "1rem", color: "var(--a-accent)", fontSize: "0.9rem", fontWeight: 500 }}>
           {status}
         </p>
       ) : null}
