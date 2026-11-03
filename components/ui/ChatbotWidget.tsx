@@ -19,7 +19,7 @@ const STORAGE_KEY = "karya_alam_chat_history";
 
 const INITIAL_MESSAGE: Message = {
   sender: "bot",
-  text: "Halo! Saya Asisten AI Karya Alam. Spesialis kolam koi, kolam renang, tebing, taman, dan batu alam sejak 1986. Ada proyek apa yang ingin Anda diskusikan hari ini?",
+  text: "Halo! Saya Asisten AI Karya Alam. Spesialis kolam koi, kolam renang, tebing, taman, dan batu alam sejak 1986.\n\nContoh format tulis ukuran:\n👉 \"taman 1,5x6\"\n👉 \"kolam koi 4x3\"\n\nAda proyek apa yang ingin Anda diskusikan hari ini?",
 };
 
 export function ChatbotWidget() {
@@ -38,7 +38,6 @@ export function ChatbotWidget() {
   });
   const [loading, setLoading] = useState(false);
 
-  // Simpan riwayat chat ke sessionStorage agar otomatis reset saat browser/tab ditutup
   useEffect(() => {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
   }, [messages]);
@@ -113,7 +112,7 @@ export function ChatbotWidget() {
           style={{
             width: "380px",
             maxWidth: "90vw",
-            height: "540px",
+            height: "560px",
             background: "var(--sc-canvas, #081715)",
             color: "var(--sc-ink, #f0e8d6)",
             border: "1px solid var(--sc-hairline, rgba(255,255,255,0.15))",
@@ -141,7 +140,7 @@ export function ChatbotWidget() {
             </div>
           </div>
 
-          <div style={{ padding: "1rem", overflowY: "auto", display: "grid", gap: "0.85rem", fontSize: "0.85rem" }}>
+          <div style={{ padding: "1rem", overflowY: "auto", display: "grid", gap: "0.85rem", fontSize: "0.85rem", whiteSpace: "pre-line" }}>
             {messages.map((m, idx) => (
               <div key={idx} style={{ justifySelf: m.sender === "user" ? "end" : "start", maxWidth: "90%" }}>
                 <div
@@ -197,7 +196,7 @@ export function ChatbotWidget() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Tulis ukuran atau pertanyaan..."
+              placeholder="Contoh: taman 1,5x6..."
               style={{ flex: 1, padding: "0.6rem 0.8rem", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(0,0,0,0.2)", color: "#fff", fontSize: "0.85rem" }}
             />
             <button type="submit" style={{ padding: "0.6rem 1rem", borderRadius: "8px", background: "#3fbfae", color: "#06211d", border: "0", fontWeight: 600, fontSize: "0.85rem", cursor: "pointer" }}>Kirim</button>

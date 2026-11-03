@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getServicesContent, saveServicesContent } from "@/lib/cms/services";
+import { getServicesContent, saveServicesContent, handleServiceImageUpload } from "@/lib/cms/services";
 import { commitContent } from "@/lib/cms/git";
 
 export async function saveServiceAction(formData: FormData) {
@@ -12,11 +12,17 @@ export async function saveServiceAction(formData: FormData) {
   const checklistStr = formData.get("checklist") as string;
   const checklist = checklistStr ? checklistStr.split("\n").map(s => s.trim()).filter(Boolean) : [];
 
+  let imagePath = (formData.get("imagePath") as string) || (formData.get("image") as string) || "/images/taman-minimalis.jpg";
+  const uploadedPath = await handleServiceImageUpload(formData);
+  if (uploadedPath) {
+    imagePath = uploadedPath;
+  }
+
   const updatedService = {
     id,
     name: formData.get("name") as string,
     description: formData.get("description") as string,
-    image: formData.get("image") as string,
+    image: imagePath,
     checklist,
     urutan: parseInt((formData.get("urutan") as string) || "1", 10),
     aktif: true,
@@ -30,7 +36,7 @@ export async function saveServiceAction(formData: FormData) {
   }
 
   await saveServicesContent(data);
-  await commitContent(["content/services.json"], `Save service: ${updatedService.name}`);
+  await commitContent(["content/services.json"], `Save service with image: ${updatedService.name}`);
   revalidatePath("/");
   revalidatePath("/admin/services");
 }

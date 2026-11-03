@@ -1,9 +1,11 @@
 import fs from "fs/promises";
 import path from "path";
+import { commitContent } from "@/lib/cms/git";
+import { getStorage } from "@/lib/cms/storage";
 
-const SERVICES_PATH = path.join(process.cwd(), "content/services.json");
+const SERVICES_PATH = "content/services.json";
 
-export interface ServiceItem {
+export type ServiceItem = {
   id: string;
   name: string;
   description: string;
@@ -11,39 +13,54 @@ export interface ServiceItem {
   checklist: string[];
   urutan: number;
   aktif: boolean;
-}
+};
 
-export interface MaintenancePackage {
-  id: string;
-  frequency: string;
-  title: string;
-  description: string;
-  tasks: string[];
-  aktif: boolean;
-}
-
-export interface ServicesContent {
+type ServicesStore = {
   version: number;
   updatedAt: string;
   services: ServiceItem[];
-  maintenancePackages: MaintenancePackage[];
-}
+};
 
-export async function getServicesContent(): Promise<ServicesContent> {
+export async function getServicesContent(): Promise<ServicesStore> {
   try {
-    const raw = await fs.readFile(SERVICES_PATH, "utf-8");
+    const raw = await fs.readFile(path.join(process.cwd(), SERVICES_PATH), "utf-8");
     return JSON.parse(raw);
   } catch {
     return {
       version: 1,
       updatedAt: new Date().toISOString(),
       services: [],
-      maintenancePackages: [],
     };
   }
 }
 
-export async function saveServicesContent(data: ServicesContent): Promise<void> {
-  data.updatedAt = new Date().toISOString();
-  await fs.writeFile(SERVICES_PATH, JSON.stringify(data, null, 2), "utf-8");
+export async function saveServicesContent(store: ServicesStore): Promise<void> {
+  store.updatedAt = new Date().toISOString();
+  await fs.writeFile(path.join(process.cwd(), SERVICES_PATH), JSON.stringify(store, null, 2), "utf-8");
+}
+
+export async function handleServiceImageUpload(formData: FormData): Promise<string | null> {
+  const file = formData.get("imageFile") as File;
+  if (!file || typeof file.arrayBuffer !== "function" || file.size === 0) {
+    return null;
+  }
+  const buffer = Buffer.from(await file.arrayBuffer());
+  
+  // Save using getStorage commit
+  const storage = getStorage();
+  const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+  const filePath = `public/uploads/${filename}`;
+  const publicPath = `/uploads/${filename}`;
+
+  await storage.commit(
+    [
+      {
+        path: filePath,
+        data: buffer,
+      },
+    ],
+    `Upload service image: ${filename}`
+  );
+
+  return publicPath;
 }

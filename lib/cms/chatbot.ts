@@ -15,10 +15,10 @@ export async function processChatConversation(
 ): Promise<{ reply: string; rab?: any }> {
   const text = latestInput.toLowerCase();
 
-  // Extract dimensions (e.g. 10x12, 4x1.5, 4 x 4)
-  const dimMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:x|×)\s*(\d+(?:\.\d+)?)/);
-  const length = dimMatch ? parseFloat(dimMatch[1]) : null;
-  const width = dimMatch ? parseFloat(dimMatch[2]) : null;
+  // Ekstraksi ukuran dengan titik atau koma (misal: 1.5x2, 1,5 x 2, 4x4)
+  const dimMatch = text.match(/(\d+(?:[.,]\d+)?)\s*(?:x|×)\s*(\d+(?:[.,]\d+)?)/);
+  const length = dimMatch ? parseFloat(dimMatch[1].replace(",", ".")) : null;
+  const width = dimMatch ? parseFloat(dimMatch[2].replace(",", ".")) : null;
 
   // Deteksi Intent Layanan secara spesifik
   const isKolamRenang = text.includes("kolam renang");
@@ -28,27 +28,34 @@ export async function processChatConversation(
   const isTebing = text.includes("tebing") || text.includes("water wall");
   const isPemasanganBatu = text.includes("pasang batu") || text.includes("fasad") || text.includes("carport") || text.includes("batu sikat");
   const isMaintenance = text.includes("maintenance") || text.includes("perawatan") || text.includes("bocor") || text.includes("coating");
-  const isBudidaya = text.includes("budidaya") || text.includes("ras");
+
+  // Chat pertama atau sapaan / belum ada ukuran untuk kolam/taman
+  const isFirstOrHelp = history.length <= 1 || text.includes("bantu") || text.includes("cara") || text.includes("pilih");
+
+  if (isFirstOrHelp && (!length || !width)) {
+    return {
+      reply: "Halo! Silakan tuliskan ukuran proyek dan jenis layanan yang ingin dihitung. Contoh format:\n👉 \"taman 1.5x6 dengan tambahan tanaman bonsai\"\n👉 \"kolam koi 4x3\"\n👉 \"kolam renang 10x5\"",
+    };
+  }
 
   // Jika minta kolam renang tapi belum ada ukuran
   if (isKolamRenang && (!length || !width)) {
     return {
-      reply: "Baik, pembuatan Kolam Renang adalah salah satu layanan utama Karya Alam. Untuk menyusun estimasi RAB secara transparan, boleh tahu perkiraan ukuran panjang dan lebar kolam renang yang diinginkan (contoh: 10x5 meter) serta kedalamannya?",
+      reply: "Baik, pembuatan Kolam Renang adalah salah satu layanan utama Karya Alam. Mohon tulis ukuran panjang dan lebar (contoh: 10x5 atau 4,5x3).",
     };
   }
 
   // Jika kolam renang dengan ukuran
   if (isKolamRenang && length && width) {
     const surface = length * width;
-    const wallArea = 2 * (length + width) * 1.5; // 1.5m average depth
+    const wallArea = 2 * (length + width) * 1.5;
     const totalArea = surface + wallArea;
 
     const excavCost = Math.round(surface * 150000);
-    const structCost = Math.round(totalArea * 1800000); // Kolam renang standar struktural Rp1.8jt/m2
-    const pumpFilterCost = 8500000; // Pompa khusus kolam renang & sand filter
-    const finishingCost = Math.round(surface * 600000); // Keramik / Mozaik / Batu sikat bibir
+    const structCost = Math.round(totalArea * 1800000);
+    const pumpFilterCost = 8500000;
+    const finishingCost = Math.round(surface * 600000);
     const designCost = 750000;
-
     const total = excavCost + structCost + pumpFilterCost + finishingCost + designCost;
 
     return {
@@ -63,7 +70,7 @@ export async function processChatConversation(
           { name: "V. Desain & RAB", cost: designCost, detail: "Gambar teknik & perencanaan" },
         ],
         total,
-        disclaimer: "Estimasi awal kolam renang profesional Karya Alam. Harga final disesuaikan dengan sistem sirkulasi (skimmer/overflow) dan hasil survei.",
+        disclaimer: "Estimasi awal kolam renang profesional Karya Alam. Harga final disesuaikan dengan hasil survei.",
       },
     };
   }
@@ -73,14 +80,14 @@ export async function processChatConversation(
     const surface = length * width;
     const wallArea = 2 * (length + width) * 1.2;
     const totalArea = surface + wallArea;
-    const constCost = Math.round(totalArea * 1200000); // Megatank 1.2jt/m2
-    const glassCost = 6500000; // Kaca tempered samping
+    const constCost = Math.round(totalArea * 1200000);
+    const glassCost = 6500000;
     const filterCost = 4500000;
     const pumpCost = 2500000;
     const total = constCost + glassCost + filterCost + pumpCost;
 
     return {
-      reply: `Untuk Kolam Koi Megatank (dengan kaca samping) ukuran ${length}m × ${width}m, berikut rincian perkiraan RAB awal:`,
+      reply: `Untuk Kolam Koi Megatank ukuran ${length}m × ${width}m, berikut rincian perkiraan RAB awal:`,
       rab: {
         title: `Estimasi RAB Kolam Koi Megatank ${length}m × ${width}m`,
         categories: [
@@ -132,7 +139,7 @@ export async function processChatConversation(
     const total = landPrep + grassCost + plantCost + stoneDecor;
 
     return {
-      reply: `Untuk pembuatan Taman berukuran ${length}m × ${width}m (luas ±${area} m²), berikut rincian perkiraan RAB awal:`,
+      reply: `Untuk pembuatan Taman berukuran ${length}m × ${width}m (luas ±${area.toFixed(1)} m²), berikut rincian perkiraan RAB awal:`,
       rab: {
         title: `Estimasi RAB Pembuatan Taman ${length}m × ${width}m`,
         categories: [
@@ -147,44 +154,16 @@ export async function processChatConversation(
     };
   }
 
-  // Pertanyaan umum atau belum ada ukuran untuk kolam/taman
-  if (isKolamRenang) {
+  // Jika ada ukuran angka tapi belum jelas layanan
+  if (length && width) {
+    const area = length * width;
+    const estCost = Math.round(area * 350000);
     return {
-      reply: "Baik, pembuatan Kolam Renang adalah salah satu dari 8 layanan utama kami. Berapa perkiraan ukuran panjang dan lebar kolam renang yang ingin Anda buat?",
-    };
-  }
-
-  if (isKolamKoi || isMegatank) {
-    return {
-      reply: "Karya Alam menyediakan Kolam Koi Minimalis dan Kolam Koi Megatank (dengan kaca samping). Berapa ukuran panjang dan lebar kolam yang direncanakan?",
-    };
-  }
-
-  if (isTaman) {
-    return {
-      reply: "Pembuatan Taman Landscape adalah keahlian kami sejak 1986. Berapa perkiraan ukuran panjang dan lebar lahan taman Anda?",
-    };
-  }
-
-  if (isTebing) {
-    return {
-      reply: "Kami melayani pembuatan Tebing Batu Alam, Water Wall, dan Air Terjun buatan. Berapa ukuran tinggi dan panjang bidang tebing yang ingin dikerjakan?",
-    };
-  }
-
-  if (isPemasanganBatu) {
-    return {
-      reply: "Kami melayani Jasa Pemasangan Batu Alam (Andesit, Candi, Palimanan, Templek) dan Carport Batu Sikat. Berapa estimasi luas area dinding/lantai yang akan dipasang?",
-    };
-  }
-
-  if (isMaintenance) {
-    return {
-      reply: "Paket Maintenance Karya Alam mencakup perawatan mingguan & bulanan: pembersihan lumut, perbaikan kebocoran kolam, cat & coating ulang batu alam, hingga pembersihan filter. Layanan mana yang Anda butuhkan?",
+      reply: `Untuk ukuran ${length}m × ${width}m (luas ±${area.toFixed(1)} m²), apakah proyek yang dimaksud adalah pembuatan Taman, Kolam Koi, atau Pasang Batu Alam? Mohon sebutkan jenis layanannya.`,
     };
   }
 
   return {
-    reply: "Karya Alam melayani 8 layanan utama: (1) Kolam Koi, (2) Kolam Renang, (3) Kolam Budidaya RAS, (4) Taman Landscape, (5) Tebing & Water Wall, (6) Pasang Batu Alam, (7) Penjualan Batu Alam, dan (8) Paket Maintenance. Proyek apa yang ingin Anda konsultasikan ukurannya?",
+    reply: "Karya Alam melayani 8 layanan utama: (1) Kolam Koi, (2) Kolam Renang, (3) Kolam Budidaya RAS, (4) Taman Landscape, (5) Tebing & Water Wall, (6) Pasang Batu Alam, (7) Penjualan Batu Alam, dan (8) Paket Maintenance.\n\nContoh format penulisan:\n👉 \"taman 1,5x6\"\n👉 \"kolam koi 4x3\"\nProyek apa yang ingin Anda konsultasikan?",
   };
 }

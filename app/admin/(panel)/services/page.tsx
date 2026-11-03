@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { getServicesContent } from "@/lib/cms/services";
 import { saveServiceAction, deleteServiceAction } from "@/app/admin/services-actions";
+import { listLibraryImages } from "@/lib/cms/products";
 
 export default async function AdminServicesPage() {
   const content = await getServicesContent();
+  const library = await listLibraryImages();
 
   return (
     <div className="admin-page">
@@ -49,7 +51,7 @@ export default async function AdminServicesPage() {
 
         <div style={{ borderTop: "1px solid var(--a-line)", paddingTop: "1.5rem" }}>
           <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Tambah / Buat Layanan Baru</h3>
-          <form action={saveServiceAction} className="admin-form-wrap">
+          <form action={saveServiceAction} className="admin-form-wrap" encType="multipart/form-data">
             <div className="admin-fields">
               <div className="admin-fields__pair">
                 <div className="admin-field">
@@ -71,9 +73,20 @@ export default async function AdminServicesPage() {
               </div>
               <div className="admin-fields__pair">
                 <div className="admin-field">
-                  <label htmlFor="image">Path Gambar</label>
-                  <input type="text" id="image" name="image" defaultValue="/images/kolam-koi-minimalis.jpg" required />
+                  <label htmlFor="imageFile">Unggah Foto Baru (Opsional)</label>
+                  <input type="file" id="imageFile" name="imageFile" accept="image/*" className="admin-field__input" />
                 </div>
+                <div className="admin-field">
+                  <label htmlFor="image">Atau Pilih dari Galeri / Path</label>
+                  <select name="image" id="image" className="admin-field__input" defaultValue="/images/taman-minimalis.jpg">
+                    <option value="/images/taman-minimalis.jpg">/images/taman-minimalis.jpg (Default)</option>
+                    {library.map((img) => (
+                      <option key={img.path} value={img.path}>{img.path} ({img.label})</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="admin-fields__pair">
                 <div className="admin-field">
                   <label htmlFor="urutan">Urutan Tampil</label>
                   <input type="number" id="urutan" name="urutan" defaultValue="1" required />
