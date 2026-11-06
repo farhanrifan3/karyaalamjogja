@@ -18,7 +18,7 @@ export default async function AdminProfilPage() {
       </div>
 
       <section className="admin-panel">
-        <form action={updateProfilAction} className="admin-form-wrap">
+        <form key={profil.title} action={updateProfilAction} className="admin-form-wrap">
           <div className="admin-fields">
             <div className="admin-field">
               <label htmlFor="title">Judul Profil</label>

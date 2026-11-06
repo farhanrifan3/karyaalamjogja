@@ -20,7 +20,7 @@ export default async function AdminHeroPromoPage() {
 
       <section className="admin-panel">
         <h2 style={{ fontSize: "1.35rem", marginBottom: "1.25rem" }}>Ubah Hero Utama</h2>
-        <form action={updateHeroAction} className="admin-form-wrap">
+        <form key={content.hero.headline} action={updateHeroAction} className="admin-form-wrap">
           <div className="admin-fields">
             <div className="admin-field">
               <label htmlFor="headline">Headline Utama</label>
