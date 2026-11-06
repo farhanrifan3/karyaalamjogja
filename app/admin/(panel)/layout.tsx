@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { logoutAction } from "@/app/admin/actions";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { requireAdmin } from "@/lib/cms/auth";
@@ -13,7 +14,7 @@ export default async function PanelLayout({
     <div className="admin-shell">
       <aside className="admin-sidebar" aria-label="Navigasi Samping Admin">
         <div className="admin-sidebar__top">
-          <Link href="/admin/katalog" className="admin-brand">
+          <Link href="/admin" className="admin-brand">
             <Wordmark />
             <span className="admin-brand__badge">CMS</span>
           </Link>
@@ -22,7 +23,12 @@ export default async function PanelLayout({
         <AdminSidebarNav />
 
         <div className="admin-sidebar__foot">
-          <Link href="/" target="_blank" rel="noopener noreferrer" className="admin-sidebar__site">
+          <Link
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="admin-sidebar__site"
+          >
             Lihat Situs Publik →
           </Link>
           <form action={logoutAction}>
@@ -36,9 +42,16 @@ export default async function PanelLayout({
       <div className="admin-content-area">
         <header className="admin-topbar">
           <div className="admin-topbar__inner">
-            <span className="admin-topbar__role">Admin Owner (Akses Penuh)</span>
+            <span className="admin-topbar__role">
+              Admin Owner (Akses Penuh)
+            </span>
             <div className="admin-topbar__actions">
-              <Link href="/" target="_blank" rel="noopener noreferrer" className="admin-btn admin-btn--small">
+              <Link
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="admin-btn admin-btn--small"
+              >
                 Buka Situs
               </Link>
             </div>

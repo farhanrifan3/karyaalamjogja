@@ -1,81 +1,83 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getHeroPromoContent, saveHeroPromoContent, getProfilContent, saveProfilContent } from "@/lib/cms/hero-profil";
-import { commitContent } from "@/lib/cms/git";
+import { supabase } from "@/lib/supabase";
 
-export async function updateHeroAction(formData: FormData) {
-  const data = await getHeroPromoContent();
-  data.hero = {
-    headline: formData.get("headline") as string,
-    subheadline: formData.get("subheadline") as string,
-    image: formData.get("image") as string,
-    alt: formData.get("alt") as string,
-    ctaText: formData.get("ctaText") as string,
-    ctaLink: formData.get("ctaLink") as string,
+export async function updateHeroAction(formData: FormData): Promise<void> {
+  const heroData = {
+    headline: (formData.get("headline") as string) || "",
+    subheadline: (formData.get("subheadline") as string) || "",
+    image: (formData.get("image") as string) || "/images/hero-garden.jpg",
+    alt: (formData.get("alt") as string) || "",
+    cta_text: (formData.get("ctaText") as string) || "Lihat Katalog",
+    cta_link: (formData.get("ctaLink") as string) || "/katalog",
   };
 
-  await saveHeroPromoContent(data);
-  await commitContent(["content/hero-promo.json"], "Update hero utama");
+  await supabase
+    .from("hero_promo")
+    .update({
+      headline: heroData.headline,
+      subheadline: heroData.subheadline,
+      image: heroData.image,
+      alt: heroData.alt,
+      cta_text: heroData.cta_text,
+      cta_link: heroData.cta_link,
+    })
+    .eq("id", "hero-main");
+
   revalidatePath("/");
   revalidatePath("/admin/hero");
 }
 
-export async function savePromoAction(formData: FormData) {
-  const data = await getHeroPromoContent();
+export async function savePromoAction(formData: FormData): Promise<void> {
   const id = (formData.get("id") as string) || `promo-${Date.now()}`;
-  
-  const newPromo = {
+  const originalId = (formData.get("originalId") as string) || id;
+
+  const promoData = {
     id,
-    title: formData.get("title") as string,
-    description: formData.get("description") as string,
-    image: formData.get("image") as string,
-    label: formData.get("label") as string,
-    hargaNormal: formData.get("hargaNormal") as string,
-    hargaPromo: formData.get("hargaPromo") as string,
-    mulaiTayang: formData.get("mulaiTayang") as string,
-    selesaiTayang: formData.get("selesaiTayang") as string,
-    aktif: formData.get("aktif") === "on",
-    urutan: parseInt((formData.get("urutan") as string) || "0", 10),
+    type: "promo",
+    title: (formData.get("title") as string) || "",
+    description: (formData.get("description") as string) || "",
+    image: (formData.get("image") as string) || "/images/andesit-rta.jpg",
+    label: (formData.get("label") as string) || "",
+    harga_normal: (formData.get("hargaNormal") as string) || "",
+    harga_promo: (formData.get("hargaPromo") as string) || "",
+    mulai_tayang: (formData.get("mulaiTayang") as string) || null,
+    selesai_tayang: (formData.get("selesaiTayang") as string) || null,
+    aktif: formData.get("aktif") === "on" || formData.get("aktif") === "true",
+    urutan: parseInt((formData.get("urutan") as string) || "1", 10),
   };
 
-  const idx = data.promos.findIndex((p) => p.id === id);
-  if (idx >= 0) {
-    data.promos[idx] = newPromo;
+  const { data: existing } = await supabase.from("hero_promo").select("id").eq("id", originalId).single();
+
+  if (existing) {
+    await supabase.from("hero_promo").update(promoData).eq("id", originalId);
   } else {
-    data.promos.push(newPromo);
+    await supabase.from("hero_promo").insert(promoData);
   }
 
-  await saveHeroPromoContent(data);
-  await commitContent(["content/hero-promo.json"], `Save promo: ${newPromo.title}`);
   revalidatePath("/");
   revalidatePath("/admin/hero");
 }
 
-export async function deletePromoAction(formData: FormData) {
+export async function deletePromoAction(formData: FormData): Promise<void> {
   const id = formData.get("id") as string;
-  const data = await getHeroPromoContent();
-  data.promos = data.promos.filter((p) => p.id !== id);
-  await saveHeroPromoContent(data);
-  await commitContent(["content/hero-promo.json"], `Delete promo: ${id}`);
+  if (!id) return;
+
+  await supabase.from("hero_promo").delete().eq("id", id);
+
   revalidatePath("/");
   revalidatePath("/admin/hero");
 }
 
-export async function updateProfilAction(formData: FormData) {
-  const data = await getProfilContent();
-  data.title = formData.get("title") as string;
-  data.narrative = formData.get("narrative") as string;
-  
-  const statsStr = formData.get("stats") as string;
-  try {
-    data.stats = JSON.parse(statsStr);
-  } catch {
-    // keep old if parse fails
-  }
+export async function updateProfilAction(formData: FormData): Promise<void> {
+  const profilData = {
+    title: (formData.get("title") as string) || "",
+    narrative: (formData.get("narrative") as string) || "",
+  };
 
-  await saveProfilContent(data);
-  await commitContent(["content/profil.json"], "Update profil karya alam");
+  await supabase.from("profil").update(profilData).eq("id", "main");
+
   revalidatePath("/");
   revalidatePath("/admin/profil");
 }

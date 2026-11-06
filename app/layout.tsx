@@ -1,30 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Geist } from "next/font/google";
-import Script from "next/script";
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 
 import { site } from "@/lib/site";
 
-import "./scrollcraft.css";
-import "./globals.css";
+import "./karya.css";
 
-const archivo = Archivo({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-fraunces",
+  display: "swap",
+  axes: ["opsz"],
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
   display: "swap",
 });
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-  display: "swap",
-});
-
-const title = "Karya Alam · Batu, air, dan tanah";
+const title = "Karya Alam — Batu Alam, Kolam, Tebing & Taman Sejak 1986";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title,
-  description: site.description,
+  description:
+    "Pangkalan batu alam, kolam, tebing, dan taman di Jl. Kapten Haryadi, Sleman sejak 1986. Konsultasi desain gratis, RAB jelas sebelum proyek, garansi kedap air 100% untuk kolam.",
   keywords: [
     "batu alam Yogyakarta",
     "kolam koi Sleman",
@@ -71,23 +71,15 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#081715",
+  themeColor: "#235A10",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`${archivo.variable} ${geist.variable}`}>
-      <body>
-        <noscript>
-          <style>{`[data-sc-in],[data-sc-stagger]>*{opacity:1;transform:none}[data-sc-reveal]{clip-path:none!important}`}</style>
-        </noscript>
-
-        {children}
-
-        <Script src="/scrollcraft.js" strategy="beforeInteractive" />
-      </body>
+    <html lang="id" className={`${fraunces.variable} ${jakarta.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

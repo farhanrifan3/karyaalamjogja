@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Katalog Batu Alam — Karya Alam</title>
+  <meta name="description" content="Katalog batu alam Karya Alam: andesit, candi, kali, koral, palimanan, dan batu tempel acak. Lihat ukuran, motif, dan karakter material, lalu tanyakan ketersediaan via WhatsApp.">
+  <meta name="theme-color" content="#235A10">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%23235A10%27/%3E%3Ctext x=%2732%27 y=%2742%27 font-family=%27Georgia,serif%27 font-size=%2727%27 fill=%27%239FDB34%27 text-anchor=%27middle%27%3EKA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body id="top">
+  <a class="skip" href="#main">Lompat ke konten</a>
+
+  <div class="topbar">
+    <div class="wrap topbar__in">
+      <p class="topbar__note">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        Jl. Kapten Haryadi, Dayakan, Sardonoharjo — Sleman
+      </p>
+      <div class="topbar__links">
+        <span>Setiap hari, 07.00–17.00 WIB</span>
+        <a href="tel:+6281328696300">+62 813-2869-6300</a>
+        <a href="https://www.google.com/maps/dir/?api=1&amp;destination=-7.7244415,110.3923901" target="_blank" rel="noopener">Petunjuk arah</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-head" id="siteHead">
+    <div class="wrap head__in">
+      <a class="brand" href="index.html" aria-label="Karya Alam — beranda">
+        <span class="brand__mark" aria-hidden="true">KA</span>
+        <span>
+          <span class="brand__name">Karya Alam</span>
+          <span class="brand__tag">batu alam · kolam · taman</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navigasi utama">
+        <a href="index.html">Beranda</a>
+        <a href="index.html#profil">Profil</a>
+        <a href="katalog.html" aria-current="page">Katalog Batu</a>
+        <a href="index.html#layanan">Layanan</a>
+        <a href="index.html#testimoni">Testimoni</a>
+        <a href="index.html#kontak">Kontak</a>
+        <a href="admin.html" style="color: var(--lime);">Admin / Kasir</a>
+      </nav>
+
+      <div class="head__actions">
+        <a class="btn btn--lime btn--sm" href="https://wa.me/6281328696300?text=Halo%20Karya%20Alam%2C%20saya%20ingin%20konsultasi%20mengenai%20kebutuhan%20batu%20alam." target="_blank" rel="noopener">
+          <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.6 9.6 0 0 1-3.4-.7L3 21l1.8-5.4a8.4 8.4 0 0 1-.8-3.6 8.5 8.5 0 0 1 8.5-8.5 8.4 8.4 0 0 1 8.5 8.5Z"/></svg>
+          Konsultasi Gratis
+        </a>
+        <button class="btn btn--ghost btn--sm" type="button" onclick="toggleTheme()" aria-label="Ganti tema gelap/terang">
+          <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="menu-btn" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="drawer">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <dialog class="drawer" id="drawer" aria-label="Menu navigasi">
+    <div class="drawer__top">
+      <span class="drawer__title">Menu</span>
+      <button class="drawer__close" type="button" data-close-drawer aria-label="Tutup menu">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer__body">
+      <nav class="drawer__nav" aria-label="Navigasi seluler">
+        <a href="index.html">Beranda <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        <a href="index.html#profil">Profil <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        <a href="katalog.html">Katalog Batu <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        <a href="index.html#layanan">Layanan <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        <a href="index.html#testimoni">Testimoni <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        <a href="index.html#kontak">Kontak <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+      </nav>
+      <div class="drawer__foot">
+        <a class="btn btn--lime btn--block" href="https://wa.me/6281328696300?text=Halo%20Karya%20Alam%2C%20saya%20ingin%20konsultasi%20mengenai%20kebutuhan%20batu%20alam." target="_blank" rel="noopener">
+          <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.6 9.6 0 0 1-3.4-.7L3 21l1.8-5.4a8.4 8.4 0 0 1-.8-3.6 8.5 8.5 0 0 1 8.5-8.5 8.4 8.4 0 0 1 8.5 8.5Z"/></svg>
+          Konsultasi Gratis
+        </a>
+        <p class="drawer__contact">Jl. Kapten Haryadi, Dayakan, Sardonoharjo, Sleman<br>Setiap hari, 07.00–17.00 WIB</p>
+      </div>
+    </div>
+  </dialog>
+
+  <main id="main">
+    <div class="page-head">
+      <div class="wrap">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Beranda</a>
+          <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+          <span aria-current="page">Katalog batu</span>
+        </nav>
+        <h1>Katalog batu alam.</h1>
+        <p class="lead">Enam jenis batu dari pangkalan sendiri, dengan ukuran dan motif yang bisa disesuaikan. Katalog menampilkan material dan karakter; harga serta stok dikonfirmasi lewat WhatsApp.</p>
+        <div class="page-head__meta">
+          <span><svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg> 6 kategori batu</span>
+          <span><svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"/></svg> Ukuran 10×10 sampai 60×60 cm</span>
+          <span><svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.4 5.2 5.6.6-4.2 3.9 1.2 5.5L12 15.6 7 18.2l1.2-5.5L4 8.8l5.6-.6L12 3Z"/></svg> Motif polos, urat, dan acak</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="wrap filters__in">
+        <div class="search">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <label class="sr-only" for="searchInput">Cari batu berdasarkan nama</label>
+          <input id="searchInput" type="search" placeholder="Cari batu, ukuran, atau penggunaan…" autocomplete="off">
+        </div>
+        <div class="chip-rail" id="categoryRail" aria-label="Filter kategori"></div>
+        <label class="sr-only" for="sizeSelect">Filter ukuran</label>
+        <select class="size-select" id="sizeSelect">
+          <option value="">Semua ukuran</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="catalog-body">
+      <div class="wrap">
+        <div class="result-line">
+          <p><strong id="resultCount">8</strong> material ditampilkan</p>
+          <p>Harga dan stok dikonfirmasi via WhatsApp.</p>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+
+        <div class="empty" id="catalogEmpty" hidden>
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11h5"/></svg>
+          <h3>Belum ada material yang cocok.</h3>
+          <p>Coba hapus kata kunci atau pilih kategori lain. Butuh ukuran khusus? Tanyakan langsung ke tim kami.</p>
+          <button class="btn btn--outline btn--sm" type="button" id="resetFilters">Tampilkan semua material</button>
+        </div>
+
+        <div class="catalog-foot">
+          <div>
+            <h3>Tidak menemukan ukuran yang Anda butuhkan?</h3>
+            <p>Ukuran, motif, dan ketersediaan stok bisa dikonfirmasi langsung. Kirim ukuran area dan jenis pekerjaannya.</p>
+          </div>
+          <a class="btn btn--dark" href="https://wa.me/6281328696300?text=Halo%20Karya%20Alam%2C%20saya%20ingin%20tanya%20ketersediaan%20ukuran%20batu%20alam." target="_blank" rel="noopener">
+            Tanya ketersediaan
+            <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a class="brand" href="index.html" aria-label="Karya Alam — beranda">
+            <span class="brand__mark" aria-hidden="true">KA</span>
+            <span>
+              <span class="brand__name">Karya Alam</span>
+              <span class="brand__tag">batu alam · kolam · taman</span>
+            </span>
+          </a>
+          <p class="foot-about">Pangkalan batu alam, kolam, tebing, dan taman di Dayakan, Sardonoharjo, Ngaglik, Sleman. Melayani Yogyakarta dan sekitarnya sejak 1986.</p>
+        </div>
+        <div>
+          <span class="foot-title">Jelajahi</span>
+          <ul class="foot-list">
+            <li><a href="index.html#profil">Profil</a></li>
+            <li><a href="katalog.html">Katalog batu</a></li>
+            <li><a href="index.html#layanan">Layanan</a></li>
+            <li><a href="index.html#testimoni">Testimoni</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="foot-title">Layanan</span>
+          <ul class="foot-list">
+            <li><a href="index.html#layanan">Kolam Koi</a></li>
+            <li><a href="index.html#layanan">Kolam Renang</a></li>
+            <li><a href="index.html#layanan">Taman &amp; Landscape</a></li>
+            <li><a href="index.html#layanan">Tebing &amp; Water Wall</a></li>
+            <li><a href="index.html#layanan">Maintenance</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="foot-title">Kontak</span>
+            <ul class="foot-list">
+              <li><a href="https://wa.me/6281328696300?text=Halo%20Karya%20Alam." target="_blank" rel="noopener">+62 813-2869-6300</a></li>
+              <li><span>Jl. Kapten Haryadi, Dayakan,<br>Sardonoharjo, Sleman 55581</span></li>
+              <li><span>Setiap hari, 07.00–17.00 WIB</span></li>
+              <li><a href="https://www.google.com/maps/dir/?api=1&amp;destination=-7.7244415,110.3923901" target="_blank" rel="noopener">Petunjuk arah ke pangkalan</a></li>
+            </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© <span id="year">2026</span> Karya Alam. Seluruh hak cipta dilindungi.</span>
+        <span>Harga promo berlaku selama periode tayang.</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="bot-launch" type="button" id="botLaunch" aria-expanded="false" aria-controls="botPanel">
+    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.6 9.6 0 0 1-3.4-.7L3 21l1.8-5.4a8.4 8.4 0 0 1-.8-3.6 8.5 8.5 0 0 1 8.5-8.5 8.4 8.4 0 0 1 8.5 8.5Z"/></svg>
+    Hitung RAB
+  </button>
+
+  <section class="bot-panel" id="botPanel" aria-labelledby="botTitle" hidden>
+    <header class="bot-head">
+      <span class="bot-head__avatar">
+        <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
+      </span>
+      <span>
+        <strong id="botTitle">Asisten RAB Karya Alam</strong>
+        <span>Estimasi awal · bukan penawaran final</span>
+      </span>
+      <button class="bot-close" type="button" id="botClose" aria-label="Tutup asisten RAB">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+    <div class="bot-log" id="botLog" aria-live="polite"></div>
+    <div class="bot-controls" id="botControls"></div>
+  </section>
+
+  <dialog class="modal" id="productDialog" aria-labelledby="pdTitle">
+    <button class="modal__close" type="button" data-close-dialog aria-label="Tutup detail produk">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="modal__grid">
+      <div class="modal__media"><img id="pdImg" src="assets/stock/stone-andesit.jpg" alt="" width="1200" height="800"></div>
+      <div class="modal__body">
+        <p class="modal__cat" id="pdCat">Kategori</p>
+        <h2 id="pdTitle">Nama material</h2>
+        <p class="modal__desc" id="pdDesc"></p>
+
+        <div class="modal__section">
+          <span class="modal__label">Ukuran tersedia</span>
+          <div class="tag-row" id="pdSizes"></div>
+        </div>
+        <div class="modal__section">
+          <span class="modal__label">Penggunaan</span>
+          <div class="tag-row" id="pdUses"></div>
+        </div>
+        <div class="modal__section">
+          <span class="modal__label">Karakter</span>
+          <p class="modal__desc" id="pdCharacter"></p>
+          <p class="modal__note" id="pdMotif"></p>
+        </div>
+
+        <div class="modal__section" id="pdCompareWrap" hidden>
+          <span class="modal__label">Perbandingan varian andesit</span>
+          <p class="modal__note" id="pdCompareIntro"></p>
+          <table class="compare">
+            <thead>
+              <tr><th scope="col">Atribut</th><th scope="col">RTA</th><th scope="col">RTM</th></tr>
+            </thead>
+            <tbody id="pdCompareBody"></tbody>
+          </table>
+        </div>
+
+        <div class="modal__cta">
+          <a class="btn btn--lime" id="pdCta" href="https://wa.me/6281328696300" target="_blank" rel="noopener">
+            Tanya ketersediaan
+            <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+          <a class="btn btn--outline" href="index.html#kontak">Konsultasi desain</a>
+        </div>
+        <p class="modal__note">Harga tidak ditampilkan di katalog. Penawaran dan ketersediaan ukuran dikonfirmasi lewat WhatsApp.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/catalog.js"></script>
+</body>
+</html>

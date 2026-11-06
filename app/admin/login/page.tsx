@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function LoginPage() {
   if (await isAdmin()) {
-    redirect("/admin/katalog");
+    redirect("/admin");
   }
 
   return (
