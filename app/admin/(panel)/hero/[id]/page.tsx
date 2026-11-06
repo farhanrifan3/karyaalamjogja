@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { getHeroPromoContent } from "@/lib/cms/hero-promo";
 import { savePromoAction } from "@/app/admin/hero-profil-actions";
 
@@ -35,6 +36,7 @@ export default async function EditPromoPage({
       <section className="admin-panel">
         <form action={savePromoAction} className="admin-form-wrap">
           <input type="hidden" name="id" value={promo.id} />
+          <input type="hidden" name="originalId" value={promo.id} />
           <div className="admin-fields">
             <div className="admin-fields__pair">
               <div className="admin-field">
@@ -73,7 +75,7 @@ export default async function EditPromoPage({
           </div>
           <div className="admin-form__actions">
             <Link href="/admin/hero" className="admin-btn">Batal</Link>
-            <button type="submit" className="admin-btn admin-btn--solid">Simpan Perubahan Promo</button>
+            <AdminSubmitButton pendingLabel="Menyimpan promo…">Simpan Perubahan Promo</AdminSubmitButton>
           </div>
         </form>
       </section>

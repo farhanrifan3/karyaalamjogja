@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { getHeroPromoContent } from "@/lib/cms/hero-promo";
 import { updateHeroAction, savePromoAction, deletePromoAction } from "@/app/admin/hero-profil-actions";
 
@@ -51,7 +52,7 @@ export default async function AdminHeroPromoPage() {
             </div>
           </div>
           <div className="admin-form__actions">
-            <button type="submit" className="admin-btn admin-btn--solid">Simpan Perubahan Hero</button>
+            <AdminSubmitButton pendingLabel="Menyimpan hero…">Simpan Perubahan Hero</AdminSubmitButton>
           </div>
         </form>
       </section>
@@ -81,9 +82,16 @@ export default async function AdminHeroPromoPage() {
               </div>
               <div className="admin-card__actions">
                 <Link href={`/admin/hero/${promo.id}`} className="admin-btn admin-btn--small">Ubah</Link>
-                <form action={deletePromoAction} className="admin-inline">
+                <form
+                  action={deletePromoAction}
+                  className="admin-inline"
+                  data-confirm-title="Hapus promo?"
+                  data-confirm-message={`Promo “${promo.title}” akan dihapus dari situs publik.`}
+                  data-confirm-label="Hapus promo"
+                  data-confirm-tone="danger"
+                >
                   <input type="hidden" name="id" value={promo.id} />
-                  <button type="submit" className="admin-btn admin-btn--small admin-btn--danger">Hapus</button>
+                  <AdminSubmitButton className="admin-btn admin-btn--small admin-btn--danger" pendingLabel="Menghapus…">Hapus</AdminSubmitButton>
                 </form>
               </div>
             </div>
@@ -131,7 +139,7 @@ export default async function AdminHeroPromoPage() {
               </div>
             </div>
             <div className="admin-form__actions">
-              <button type="submit" className="admin-btn admin-btn--solid">Simpan Promo Baru</button>
+              <AdminSubmitButton pendingLabel="Menyimpan promo…">Simpan Promo Baru</AdminSubmitButton>
             </div>
           </form>
         </div>

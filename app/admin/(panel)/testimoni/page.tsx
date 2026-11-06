@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getAllReviews } from "@/lib/cms/reviews";
 import { setReviewStatusAction, deleteReviewAction } from "@/app/admin/reviews-actions";
 import { site } from "@/lib/site";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 
 export default async function AdminTestimoniPage() {
   const reviews = await getAllReviews();
@@ -67,19 +68,32 @@ export default async function AdminTestimoniPage() {
                   <form action={setReviewStatusAction} className="admin-inline">
                     <input type="hidden" name="id" value={r.id} />
                     <input type="hidden" name="status" value="approved" />
-                    <button type="submit" className="admin-btn admin-btn--small" style={{ background: "var(--a-accent)", color: "#fff" }}>Setujui</button>
+                    <AdminSubmitButton className="admin-btn admin-btn--small" pendingLabel="Menyimpan…" style={{ background: "var(--a-accent)", color: "#fff" }}>Setujui</AdminSubmitButton>
                   </form>
                 )}
                 {r.status !== "rejected" && (
-                  <form action={setReviewStatusAction} className="admin-inline">
-                    <input type="hidden" name="id" value={r.id} />
-                    <input type="hidden" name="status" value="rejected" />
-                    <button type="submit" className="admin-btn admin-btn--small">Tolak</button>
+                    <form
+                      action={setReviewStatusAction}
+                      className="admin-inline"
+                      data-confirm-title="Tolak ulasan ini?"
+                      data-confirm-message="Ulasan tidak akan tampil di situs. Anda tetap bisa menghapusnya nanti."
+                      data-confirm-label="Tolak ulasan"
+                    >
+                      <input type="hidden" name="id" value={r.id} />
+                      <input type="hidden" name="status" value="rejected" />
+                      <AdminSubmitButton className="admin-btn admin-btn--small" pendingLabel="Menyimpan…">Tolak</AdminSubmitButton>
                   </form>
                 )}
-                <form action={deleteReviewAction} className="admin-inline">
-                  <input type="hidden" name="id" value={r.id} />
-                  <button type="submit" className="admin-btn admin-btn--small admin-btn--danger">Hapus</button>
+                  <form
+                    action={deleteReviewAction}
+                    className="admin-inline"
+                    data-confirm-title="Hapus ulasan?"
+                    data-confirm-message={`Ulasan dari “${r.name}” akan dihapus permanen.`}
+                    data-confirm-label="Hapus ulasan"
+                    data-confirm-tone="danger"
+                  >
+                    <input type="hidden" name="id" value={r.id} />
+                    <AdminSubmitButton className="admin-btn admin-btn--small admin-btn--danger" pendingLabel="Menghapus…">Hapus</AdminSubmitButton>
                 </form>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { getProfilContent } from "@/lib/cms/hero-profil";
 import { updateProfilAction } from "@/app/admin/hero-profil-actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 
 export default async function AdminProfilPage() {
   const profil = await getProfilContent();
@@ -35,7 +36,7 @@ export default async function AdminProfilPage() {
             </div>
           </div>
           <div className="admin-form__actions">
-            <button type="submit" className="admin-btn admin-btn--solid">Simpan Perubahan Profil</button>
+            <AdminSubmitButton pendingLabel="Menyimpan profil…">Simpan Perubahan Profil</AdminSubmitButton>
           </div>
         </form>
       </section>

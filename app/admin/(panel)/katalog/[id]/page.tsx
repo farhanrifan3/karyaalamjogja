@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ProductForm } from "@/components/admin/ProductForm";
-import { getProduct, listLibraryImages } from "@/lib/cms/products";
+import { getProduct, getProductCategories, listLibraryImages } from "@/lib/cms/products";
 
 export const metadata = {
   title: "Ubah barang",
@@ -14,9 +14,10 @@ type EditProductPageProps = {
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { id } = await params;
-  const [product, library] = await Promise.all([
+  const [product, library, categories] = await Promise.all([
     getProduct(id),
     listLibraryImages(),
+    getProductCategories(),
   ]);
 
   if (!product) {
@@ -42,7 +43,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         </div>
       </header>
 
-      <ProductForm product={product} library={library} />
+      <ProductForm product={product} library={library} categories={categories} />
     </div>
   );
 }

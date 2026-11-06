@@ -1,5 +1,6 @@
 import { getFinanceStore, type TransactionItem } from "@/lib/cms/finance";
 import { addTransactionAction, deleteTransactionAction } from "@/app/admin/finance-actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 
 export default async function AdminFinancePage() {
   const store = await getFinanceStore();
@@ -168,7 +169,7 @@ export default async function AdminFinancePage() {
           </div>
 
           <div className="admin-form__actions">
-            <button type="submit" className="admin-btn admin-btn--solid">Simpan Transaksi Kasir</button>
+            <AdminSubmitButton pendingLabel="Mencatat transaksi…">Simpan Transaksi Kasir</AdminSubmitButton>
           </div>
         </form>
       </div>
@@ -208,9 +209,15 @@ export default async function AdminFinancePage() {
                     {t.type === "masuk" ? "+" : "-"}Rp{t.amount.toLocaleString("id-ID")}
                   </td>
                   <td style={{ padding: "0.75rem" }}>
-                    <form action={deleteTransactionAction}>
+                    <form
+                      action={deleteTransactionAction}
+                      data-confirm-title="Hapus transaksi?"
+                      data-confirm-message={`Transaksi “${t.description}” akan dihapus dari laporan keuangan.`}
+                      data-confirm-label="Hapus transaksi"
+                      data-confirm-tone="danger"
+                    >
                       <input type="hidden" name="id" value={t.id} />
-                      <button type="submit" className="admin-btn admin-btn--small admin-btn--danger">Hapus</button>
+                      <AdminSubmitButton className="admin-btn admin-btn--small admin-btn--danger" pendingLabel="Menghapus…">Hapus</AdminSubmitButton>
                     </form>
                   </td>
                 </tr>

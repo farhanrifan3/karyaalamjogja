@@ -1,14 +1,17 @@
 import Link from "next/link";
 
 import { ProductForm } from "@/components/admin/ProductForm";
-import { listLibraryImages } from "@/lib/cms/products";
+import { getProductCategories, listLibraryImages } from "@/lib/cms/products";
 
 export const metadata = {
   title: "Tambah barang",
 };
 
 export default async function NewProductPage() {
-  const library = await listLibraryImages();
+  const [library, categories] = await Promise.all([
+    listLibraryImages(),
+    getProductCategories(),
+  ]);
 
   return (
     <div className="admin-page">
@@ -29,7 +32,7 @@ export default async function NewProductPage() {
         </div>
       </header>
 
-      <ProductForm product={null} library={library} />
+      <ProductForm product={null} library={library} categories={categories} />
     </div>
   );
 }

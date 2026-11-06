@@ -1,7 +1,11 @@
 import { services } from "@/lib/services";
 import { site } from "@/lib/site";
 
-export function buildLocalBusinessJsonLd() {
+type JsonLdService = Pick<(typeof services)[number], "title" | "description">;
+
+export function buildLocalBusinessJsonLd(
+  serviceItems: readonly JsonLdService[] = services,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -31,7 +35,7 @@ export function buildLocalBusinessJsonLd() {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Layanan Karya Alam",
-      itemListElement: services.map((service) => ({
+      itemListElement: serviceItems.map((service) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",

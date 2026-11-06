@@ -2,31 +2,17 @@
 
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
-import { useFormStatus } from "react-dom";
 
 import { saveProductAction, type ProductFormState } from "@/app/admin/actions";
-import type { LibraryImage } from "@/lib/cms/products";
-import type { Product } from "@/lib/types";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
+import type { CmsProduct, LibraryImage, ProductCategory } from "@/lib/cms/products";
 import { PRODUCT_LIMITS } from "@/lib/cms/product-input";
 
 type ProductFormProps = {
-  product: Product | null;
+  product: CmsProduct | null;
   library: LibraryImage[];
+  categories: ProductCategory[];
 };
-
-function SubmitButton({ label }: { label: string }) {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      className="admin-btn admin-btn--solid"
-      disabled={pending}
-    >
-      {pending ? "Menyimpan..." : label}
-    </button>
-  );
-}
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) {
@@ -40,7 +26,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-export function ProductForm({ product, library }: ProductFormProps) {
+export function ProductForm({ product, library, categories }: ProductFormProps) {
   const [state, formAction] = useActionState<ProductFormState, FormData>(
     saveProductAction,
     {},
@@ -125,6 +111,28 @@ export function ProductForm({ product, library }: ProductFormProps) {
 
       <div className="admin-form">
         <div className="admin-fields">
+          <div className="admin-field">
+            <label htmlFor="categoryId">Kategori</label>
+            <select
+              id="categoryId"
+              name="categoryId"
+              required
+              defaultValue={product?.categoryId ?? categories[0]?.id ?? ""}
+              aria-invalid={Boolean(errors.categoryId)}
+              aria-describedby={errors.categoryId ? "categoryId-error" : undefined}
+            >
+              <option value="" disabled>
+                Pilih kategori
+              </option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <FieldError id="categoryId-error" message={errors.categoryId} />
+          </div>
+
           <div className="admin-field">
             <label htmlFor="name">Nama barang</label>
             <input
@@ -280,7 +288,11 @@ export function ProductForm({ product, library }: ProductFormProps) {
         <Link href="/admin/katalog" className="admin-btn">
           Batal
         </Link>
-        <SubmitButton label={product ? "Simpan perubahan" : "Tambah ke katalog"} />
+        <AdminSubmitButton
+          pendingLabel={product ? "Menyimpan perubahan…" : "Menambahkan barang…"}
+        >
+          {product ? "Simpan perubahan" : "Tambah ke katalog"}
+        </AdminSubmitButton>
       </div>
     </form>
   );

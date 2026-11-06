@@ -2,32 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { moveProductAction } from "@/app/admin/actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { DeleteProductForm } from "@/components/admin/DeleteProductForm";
-import { getProducts } from "@/lib/products";
+import { getProducts } from "@/lib/cms/products";
 
 export const metadata = {
   title: "Katalog",
 };
 
-const STATUS_MESSAGES: Record<string, string> = {
-  ditambah: "Barang baru sudah masuk katalog dan tayang di halaman publik.",
-  diperbarui: "Perubahan barang sudah disimpan dan tayang di halaman publik.",
-  dihapus: "Barang sudah dihapus dari katalog. Fotonya tetap disimpan.",
-};
-
-type CatalogPageProps = {
-  searchParams: Promise<{ status?: string; pesan?: string }>;
-};
-
-export default async function CatalogPage({ searchParams }: CatalogPageProps) {
-  const { status, pesan } = await searchParams;
+export default async function CatalogPage() {
   const products = await getProducts();
-  const flash =
-    status === "gagal"
-      ? pesan || "Barang gagal diproses. Coba lagi."
-      : status
-        ? STATUS_MESSAGES[status]
-        : undefined;
 
   return (
     <div className="admin-page">
@@ -47,15 +31,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           Tambah barang
         </Link>
       </header>
-
-      {flash ? (
-        <p
-          className={`admin-flash${status === "gagal" ? " admin-flash--error" : ""}`}
-          role="status"
-        >
-          {flash}
-        </p>
-      ) : null}
 
       {products.length === 0 ? (
         <div className="admin-empty">
@@ -115,29 +90,29 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                 <form action={moveProductAction} className="admin-inline">
                   <input type="hidden" name="id" value={product.id} />
                   <input type="hidden" name="direction" value="up" />
-                  <button
-                    type="submit"
+                  <AdminSubmitButton
                     className="admin-btn admin-btn--small admin-btn--icon"
                     disabled={index === 0}
                     aria-label={`Naikkan ${product.name}`}
                     title="Naikkan"
+                    pendingLabel="…"
                   >
                     ↑
-                  </button>
+                  </AdminSubmitButton>
                 </form>
 
                 <form action={moveProductAction} className="admin-inline">
                   <input type="hidden" name="id" value={product.id} />
                   <input type="hidden" name="direction" value="down" />
-                  <button
-                    type="submit"
+                  <AdminSubmitButton
                     className="admin-btn admin-btn--small admin-btn--icon"
                     disabled={index === products.length - 1}
                     aria-label={`Turunkan ${product.name}`}
                     title="Turunkan"
+                    pendingLabel="…"
                   >
                     ↓
-                  </button>
+                  </AdminSubmitButton>
                 </form>
 
                 <DeleteProductForm id={product.id} name={product.name} />

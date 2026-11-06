@@ -1,6 +1,9 @@
+import { Suspense } from "react";
 import Link from "next/link";
 
 import { logoutAction } from "@/app/admin/actions";
+import { AdminFeedback } from "@/components/admin/AdminFeedback";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { requireAdmin } from "@/lib/cms/auth";
 import { AdminSidebarNav } from "./AdminSidebarNav";
@@ -32,14 +35,17 @@ export default async function PanelLayout({
             Lihat Situs Publik →
           </Link>
           <form action={logoutAction}>
-            <button type="submit" className="admin-sidebar__out">
+            <AdminSubmitButton className="admin-sidebar__out" pendingLabel="Keluar…">
               Keluar Sesi
-            </button>
+            </AdminSubmitButton>
           </form>
         </div>
       </aside>
 
       <div className="admin-content-area">
+        <Suspense fallback={null}>
+          <AdminFeedback />
+        </Suspense>
         <header className="admin-topbar">
           <div className="admin-topbar__inner">
             <span className="admin-topbar__role">

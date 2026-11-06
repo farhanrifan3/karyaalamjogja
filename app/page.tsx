@@ -67,7 +67,12 @@ export default async function HomePage() {
     .sort((a, b) => a.urutan - b.urutan)
     .map((service) => ({ ...service, image: normalizeImage(service.image) }));
 
-  const jsonLd = buildLocalBusinessJsonLd();
+  const jsonLd = buildLocalBusinessJsonLd(
+    services.map((service) => ({
+      title: service.name,
+      description: service.description,
+    })),
+  );
 
   return (
     <>

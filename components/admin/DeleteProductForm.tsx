@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteProductAction } from "@/app/admin/actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 
 type DeleteProductFormProps = {
   id: string;
@@ -11,24 +12,19 @@ export function DeleteProductForm({ id, name }: DeleteProductFormProps) {
   return (
     <form
       action={deleteProductAction}
-      onSubmit={(event) => {
-        const confirmed = window.confirm(
-          `Hapus "${name}" dari katalog?\n\nFotonya tetap disimpan dan masih bisa dipakai lagi.`,
-        );
-
-        if (!confirmed) {
-          event.preventDefault();
-        }
-      }}
+      data-confirm-title="Hapus barang dari katalog?"
+      data-confirm-message={`“${name}” akan dihapus dari situs. Fotonya tetap tersimpan dan masih bisa dipakai lagi.`}
+      data-confirm-label="Hapus barang"
+      data-confirm-tone="danger"
     >
       <input type="hidden" name="id" value={id} />
-      <button
-        type="submit"
+      <AdminSubmitButton
         className="admin-btn admin-btn--danger admin-btn--small"
         aria-label={`Hapus ${name}`}
+        pendingLabel="Menghapus…"
       >
         Hapus
-      </button>
+      </AdminSubmitButton>
     </form>
   );
 }

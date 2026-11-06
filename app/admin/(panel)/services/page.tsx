@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { getServicesContent } from "@/lib/cms/services";
 import { saveServiceAction, deleteServiceAction } from "@/app/admin/services-actions";
 import { listLibraryImages } from "@/lib/cms/products";
@@ -40,9 +41,16 @@ export default async function AdminServicesPage() {
               </div>
               <div className="admin-card__actions">
                 <Link href={`/admin/services/${service.id}`} className="admin-btn admin-btn--small">Ubah</Link>
-                <form action={deleteServiceAction} className="admin-inline">
+                <form
+                  action={deleteServiceAction}
+                  className="admin-inline"
+                  data-confirm-title="Hapus layanan?"
+                  data-confirm-message={`“${service.name}” akan dihapus dari situs publik.`}
+                  data-confirm-label="Hapus layanan"
+                  data-confirm-tone="danger"
+                >
                   <input type="hidden" name="id" value={service.id} />
-                  <button type="submit" className="admin-btn admin-btn--small admin-btn--danger">Hapus</button>
+                  <AdminSubmitButton className="admin-btn admin-btn--small admin-btn--danger" pendingLabel="Menghapus…">Hapus</AdminSubmitButton>
                 </form>
               </div>
             </div>
@@ -51,7 +59,7 @@ export default async function AdminServicesPage() {
 
         <div style={{ borderTop: "1px solid var(--a-line)", paddingTop: "1.5rem" }}>
           <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Tambah / Buat Layanan Baru</h3>
-          <form action={saveServiceAction} className="admin-form-wrap" encType="multipart/form-data">
+          <form action={saveServiceAction} className="admin-form-wrap">
             <div className="admin-fields">
               <div className="admin-fields__pair">
                 <div className="admin-field">
@@ -94,7 +102,7 @@ export default async function AdminServicesPage() {
               </div>
             </div>
             <div className="admin-form__actions">
-              <button type="submit" className="admin-btn admin-btn--solid">Simpan Layanan Baru</button>
+              <AdminSubmitButton pendingLabel="Menyimpan layanan…">Simpan Layanan Baru</AdminSubmitButton>
             </div>
           </form>
         </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllPrices } from "@/lib/cms/prices";
 import { savePriceAction, deletePriceAction } from "@/app/admin/prices-actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 
 export default async function AdminPricesPage({
   searchParams,
@@ -57,9 +58,16 @@ export default async function AdminPricesPage({
                   </td>
                   <td style={{ padding: "0.75rem", display: "flex", gap: "0.5rem", alignItems: "center" }}>
                     <Link href={`/admin/harga?edit=${p.id}`} className="admin-btn admin-btn--small">Ubah</Link>
-                    <form action={deletePriceAction} className="admin-inline">
+                    <form
+                      action={deletePriceAction}
+                      className="admin-inline"
+                      data-confirm-title="Hapus item harga?"
+                      data-confirm-message={`“${p.name}” akan dihapus dari master harga.`}
+                      data-confirm-label="Hapus item"
+                      data-confirm-tone="danger"
+                    >
                       <input type="hidden" name="id" value={p.id} />
-                      <button type="submit" className="admin-btn admin-btn--small admin-btn--danger">Hapus</button>
+                      <AdminSubmitButton className="admin-btn admin-btn--small admin-btn--danger" pendingLabel="Menghapus…">Hapus</AdminSubmitButton>
                     </form>
                   </td>
                 </tr>
@@ -107,9 +115,9 @@ export default async function AdminPricesPage({
               </div>
             </div>
             <div className="admin-form__actions">
-              <button type="submit" className="admin-btn admin-btn--solid">
+              <AdminSubmitButton pendingLabel="Menyimpan harga…">
                 {editingItem ? "Simpan Perubahan Harga" : "Simpan Item Master Baru"}
-              </button>
+              </AdminSubmitButton>
             </div>
           </form>
         </div>

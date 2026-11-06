@@ -29,6 +29,7 @@ import {
   type ProductFieldErrors,
 } from "@/lib/cms/product-input";
 import { CONTENT_TAG } from "@/lib/cms/storage";
+import { redirectWithAdminFeedback } from "@/lib/cms/admin-feedback";
 
 export type LoginState = {
   error?: string;
@@ -83,6 +84,7 @@ export async function saveProductAction(
 
   const id = String(formData.get("id") ?? "").trim();
   const draft: ProductDraft = {
+    categoryId: cleanText(formData.get("categoryId")),
     name: cleanText(formData.get("name")),
     description: cleanText(formData.get("description")),
     use: cleanText(formData.get("use")),
@@ -144,8 +146,12 @@ export async function saveProductAction(
 
   updateTag(CONTENT_TAG);
   revalidatePath("/");
+  revalidatePath("/katalog");
   revalidatePath("/admin/katalog");
-  redirect(id ? "/admin/katalog?status=diperbarui" : "/admin/katalog?status=ditambah");
+  redirectWithAdminFeedback(
+    "/admin/katalog",
+    id ? "product-updated" : "product-added",
+  );
 }
 
 export async function deleteProductAction(formData: FormData): Promise<void> {
@@ -158,18 +164,22 @@ export async function deleteProductAction(formData: FormData): Promise<void> {
     redirect("/admin/katalog");
   }
 
+  let deleteFailed = false;
   try {
     await deleteProduct(id);
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Barang gagal dihapus.";
-    redirect(`/admin/katalog?status=gagal&pesan=${encodeURIComponent(message)}`);
+  } catch {
+    deleteFailed = true;
+  }
+
+  if (deleteFailed) {
+    redirectWithAdminFeedback("/admin/katalog", "product-delete-failed");
   }
 
   updateTag(CONTENT_TAG);
   revalidatePath("/");
+  revalidatePath("/katalog");
   revalidatePath("/admin/katalog");
-  redirect("/admin/katalog?status=dihapus");
+  redirectWithAdminFeedback("/admin/katalog", "product-deleted");
 }
 
 export async function moveProductAction(formData: FormData): Promise<void> {
@@ -181,10 +191,20 @@ export async function moveProductAction(formData: FormData): Promise<void> {
   const direction = formData.get("direction") === "up" ? "up" : "down";
 
   if (id) {
-    await moveProduct(id, direction);
+    let moveFailed = false;
+    try {
+      await moveProduct(id, direction);
+    } catch {
+      moveFailed = true;
+    }
+    if (moveFailed) {
+      redirectWithAdminFeedback("/admin/katalog", "product-order-failed");
+    }
     updateTag(CONTENT_TAG);
     revalidatePath("/");
+    revalidatePath("/katalog");
     revalidatePath("/admin/katalog");
+    redirectWithAdminFeedback("/admin/katalog", "product-order-updated");
   }
 
   redirect("/admin/katalog");

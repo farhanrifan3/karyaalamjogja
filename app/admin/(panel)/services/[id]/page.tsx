@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { getServicesContent } from "@/lib/cms/services";
 import { saveServiceAction } from "@/app/admin/services-actions";
 import { listLibraryImages } from "@/lib/cms/products";
@@ -35,7 +36,7 @@ export default async function EditServicePage({
       </header>
 
       <section className="admin-panel">
-        <form action={saveServiceAction} className="admin-form-wrap" encType="multipart/form-data">
+        <form action={saveServiceAction} className="admin-form-wrap">
           <input type="hidden" name="originalId" value={service.id} />
           <input type="hidden" name="imagePath" value={service.image} />
           <div className="admin-fields">
@@ -91,7 +92,7 @@ export default async function EditServicePage({
           </div>
           <div className="admin-form__actions">
             <Link href="/admin/services" className="admin-btn">Batal</Link>
-            <button type="submit" className="admin-btn admin-btn--solid">Simpan Perubahan Layanan</button>
+            <AdminSubmitButton pendingLabel="Menyimpan layanan…">Simpan Perubahan Layanan</AdminSubmitButton>
           </div>
         </form>
       </section>

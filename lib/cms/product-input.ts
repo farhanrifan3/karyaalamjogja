@@ -4,6 +4,7 @@
  */
 
 export type ProductDraft = {
+  categoryId: string;
   name: string;
   description: string;
   use: string;
@@ -34,6 +35,10 @@ export function cleanText(value: unknown): string {
 
 export function validateProductDraft(draft: ProductDraft): ProductFieldErrors {
   const errors: ProductFieldErrors = {};
+
+  if (!draft.categoryId) {
+    errors.categoryId = "Pilih kategori barang.";
+  }
 
   if (draft.name.length < 2) {
     errors.name = "Nama barang minimal 2 karakter.";
