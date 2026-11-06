@@ -13,6 +13,10 @@ export const site = {
     e164: "+6281328696300",
     whatsapp: "6281328696300",
   },
+  hours: "Setiap hari, 07.00–17.00 WIB",
+  addressShort: "Jl. Kapten Haryadi, Dayakan, Sardonoharjo — Sleman",
+  mapsDirectionUrl:
+    "https://www.google.com/maps/dir/?api=1&destination=-7.7244415,110.3923901",
   address: {
     street: "Jl. Kapten Haryadi, Dayakan, Sardonoharjo",
     district: "Kec. Ngaglik",

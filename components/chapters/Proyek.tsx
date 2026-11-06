@@ -1,17 +1,20 @@
-"use client";
-
 import Image from "next/image";
 import { useState } from "react";
 
 import { ChapterHead } from "@/components/ui/ChapterHead";
 import { Lightbox } from "@/components/ui/Lightbox";
 import { chapters } from "@/lib/chapters";
-import { gallery } from "@/lib/gallery";
+import { getGalleryFromSupabase } from "@/lib/gallery";
 import type { GalleryItem } from "@/lib/types";
 
 const chapter = chapters[4];
 
-export function Proyek() {
+export async function Proyek() {
+  const gallery = await getGalleryFromSupabase();
+  return <ProyekClient gallery={gallery} />;
+}
+
+function ProyekClient({ gallery }: { gallery: GalleryItem[] }) {
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
   const close = () => setActiveItem(null);
 

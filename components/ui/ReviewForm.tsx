@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+
 import { submitReviewAction } from "@/app/admin/reviews-actions";
+import { Star } from "@/components/site/icons";
 
 export function ReviewForm() {
   const [status, setStatus] = useState<string | null>(null);
@@ -9,9 +11,12 @@ export function ReviewForm() {
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
+    setStatus(null);
     try {
       await submitReviewAction(formData);
-      setStatus("Terima kasih! Ulasan Anda telah terkirim dan akan ditampilkan setelah disetujui oleh admin.");
+      setStatus(
+        "Terima kasih! Ulasan Anda telah terkirim dan akan tampil setelah disetujui admin.",
+      );
     } catch {
       setStatus("Terjadi kesalahan saat mengirim ulasan. Silakan coba lagi.");
     } finally {
@@ -20,49 +25,80 @@ export function ReviewForm() {
   }
 
   return (
-    <form className="review-form" action={handleSubmit}>
-      <label className="field">
-        <span className="field__label">Nama dan daerah</span>
-        <input
-          name="name"
-          placeholder="Contoh: Pak Hendra, Sleman"
-          required
-          maxLength={60}
-          autoComplete="name"
-        />
-      </label>
+    <form action={handleSubmit} noValidate>
+      <div className="form-grid">
+        <div className="field">
+          <label htmlFor="rvName">
+            Nama <span className="req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="rvName"
+            name="name"
+            type="text"
+            autoComplete="name"
+            placeholder="Contoh: Pak Hendra, Sleman"
+            required
+            maxLength={60}
+          />
+        </div>
 
-      <label className="field">
-        <span className="field__label">Beri Rating</span>
-        <select name="rating" defaultValue="5" className="field__input" style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--a-line)", background: "var(--a-card)", color: "var(--a-text)", fontSize: "0.95rem" }}>
-          <option value="5">⭐⭐⭐⭐⭐ (5/5 Sangat Puas)</option>
-          <option value="4">⭐⭐⭐⭐ (4/5 Puas)</option>
-          <option value="3">⭐⭐⭐ (3/5 Cukup)</option>
-        </select>
-      </label>
+        <div className="field field--full">
+          <span id="ratingLabel">
+            Rating <span className="req" aria-hidden="true">*</span>
+          </span>
+          <div
+            className="rating-input"
+            role="radiogroup"
+            aria-labelledby="ratingLabel"
+          >
+            {[5, 4, 3, 2, 1].map((value) => (
+              <label className="star-btn" title={`${value} bintang`} key={value}>
+                <input
+                  className="sr-only"
+                  type="radio"
+                  name="rating"
+                  value={value}
+                  defaultChecked={value === 5}
+                  required
+                />
+                <Star />
+                <span className="sr-only">{value} bintang</span>
+              </label>
+            ))}
+          </div>
+        </div>
 
-      <label className="field">
-        <span className="field__label">Ulasan</span>
-        <textarea
-          name="text"
-          rows={4}
-          placeholder="Tulis pengalaman Anda bersama Karya Alam"
-          required
-          maxLength={600}
-        />
-      </label>
+        <div className="field field--full">
+          <label htmlFor="rvText">
+            Ulasan <span className="req" aria-hidden="true">*</span>
+          </label>
+          <textarea
+            id="rvText"
+            name="text"
+            required
+            minLength={20}
+            maxLength={600}
+            placeholder="Tulis pengalaman Anda bersama Karya Alam"
+            aria-describedby="rvTextHelp"
+          />
+          <p className="field__help" id="rvTextHelp">
+            Tulis pengalaman Anda selama pengerjaan, minimal 20 karakter.
+          </p>
+        </div>
+      </div>
 
-      <div className="review-form__action">
-        <button className="btn-solid" type="submit" disabled={loading}>
-          {loading ? "Mengirim..." : "Kirim Ulasan ke Website"}
+      <div className="form-foot">
+        <button className="btn btn--dark" type="submit" disabled={loading}>
+          {loading ? "Mengirim..." : "Kirim ulasan"}
         </button>
-        <small>
-          Ulasan Anda akan dimoderasi oleh admin sebelum tampil di beranda publik.
-        </small>
+        <p className="form-note">
+          Ulasan bermoderasi. Kami menolak kontak pribadi, ujaran kebencian, dan
+          promosi pihak lain.
+        </p>
       </div>
 
       {status ? (
-        <p className="form-status" role="status" aria-live="polite" style={{ marginTop: "1rem", color: "var(--a-accent)", fontSize: "0.9rem", fontWeight: 500 }}>
+        <p className="form-status" role="status" aria-live="polite">
           {status}
         </p>
       ) : null}

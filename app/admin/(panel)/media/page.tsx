@@ -26,7 +26,7 @@ export default async function AdminMediaPage() {
               </div>
               <div className="admin-card__body">
                 <h3 className="admin-card__name" style={{ fontSize: "0.95rem" }}>{img.label}</h3>
-                <p className="admin-card__text" style={{ fontFamily: "var(--sc-font-mono)", fontSize: "0.72rem", wordBreak: "break-all" }}>{img.path}</p>
+                <p className="admin-card__text" style={{ fontFamily: "var(--font-mono, ui-monospace, monospace)", fontSize: "0.72rem", wordBreak: "break-all" }}>{img.path}</p>
               </div>
             </div>
           ))}
