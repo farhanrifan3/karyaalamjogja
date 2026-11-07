@@ -988,7 +988,7 @@ section[id] {
 .profile__media img {
   width: 100%;
   border-radius: var(--r-lg);
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 9 / 16;
   object-fit: cover;
 }
 
