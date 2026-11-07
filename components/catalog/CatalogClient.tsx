@@ -11,6 +11,8 @@ type CatalogClientProps = {
   categories: CatalogCategory[];
   items: CatalogItem[];
   initialCategory?: string;
+  brandName: string;
+  whatsapp: string;
 };
 
 const COMPARISON_ROWS: Array<[string, string]> = [
@@ -28,10 +30,129 @@ function normalize(value: string): string {
     .trim();
 }
 
+function sizeSummary(item: CatalogItem): string {
+  if (item.sizes.length === 0) {
+    return "Ukuran menyesuaikan";
+  }
+
+  const labels = item.sizes
+    .slice(0, 3)
+    .map((size) => (size.satuan ? `${size.label} · ${size.satuan}` : size.label));
+
+  return `${labels.join(" · ")}${
+    item.sizes.length > 3 ? ` · +${item.sizes.length - 3} ukuran` : ""
+  }`;
+}
+
+function ProductCard({
+  item,
+  categoryName,
+  onOpen,
+}: {
+  item: CatalogItem;
+  categoryName: string;
+  onOpen: (item: CatalogItem) => void;
+}) {
+  return (
+    <button
+      className="product"
+      type="button"
+      onClick={() => onOpen(item)}
+    >
+      <span className="product__media">
+        <Image
+          src={item.image}
+          alt={item.alt}
+          fill
+          loading="lazy"
+          sizes="(max-width: 720px) 78vw, 260px"
+        />
+        {item.label ? <span className="badge">{item.label}</span> : null}
+      </span>
+      <span className="product__body">
+        <span className="product__cat">{categoryName}</span>
+        <span className="product__name">{item.name}</span>
+        <span className="product__sizes">{sizeSummary(item)}</span>
+        {item.character ? (
+          <span className="product__motif">{item.character}</span>
+        ) : null}
+        <span className="product__foot">
+          Lihat detail
+          <ChevronRight />
+        </span>
+      </span>
+    </button>
+  );
+}
+
+function CategoryRail({
+  category,
+  items,
+  onOpen,
+}: {
+  category: CatalogCategory;
+  items: CatalogItem[];
+  onOpen: (item: CatalogItem) => void;
+}) {
+  const railRef = useRef<HTMLDivElement>(null);
+
+  function scroll(direction: 1 | -1) {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: direction * rail.clientWidth * 0.85, behavior: "smooth" });
+  }
+
+  return (
+    <section className="catalog-group" aria-labelledby={`kategori-${category.id}`}>
+      <div className="catalog-group__head">
+        <div>
+          <h2 id={`kategori-${category.id}`}>
+            {category.name.replace(/^Batu\s+/i, "")}
+          </h2>
+          {category.description ? (
+            <p className="catalog-group__desc">{category.description}</p>
+          ) : null}
+        </div>
+        <div className="rail-nav">
+          <button
+            type="button"
+            className="rail-nav__btn"
+            aria-label={`Geser ${category.name} ke kiri`}
+            onClick={() => scroll(-1)}
+          >
+            <ChevronRight className="ic ic--sm rail-nav__icon--prev" />
+          </button>
+          <button
+            type="button"
+            className="rail-nav__btn"
+            aria-label={`Geser ${category.name} ke kanan`}
+            onClick={() => scroll(1)}
+          >
+            <ChevronRight className="ic ic--sm" />
+          </button>
+        </div>
+      </div>
+
+      <div className="product-rail" ref={railRef}>
+        {items.map((item) => (
+          <ProductCard
+            key={item.id}
+            item={item}
+            categoryName={category.name}
+            onOpen={onOpen}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function CatalogClient({
   categories,
   items,
   initialCategory = "",
+  brandName,
+  whatsapp,
 }: CatalogClientProps) {
   const [category, setCategory] = useState(initialCategory);
   const [query, setQuery] = useState("");
@@ -72,6 +193,23 @@ export function CatalogClient({
       return true;
     });
   }, [items, category, size, query, categories]);
+
+  const grouped = useMemo(() => {
+    const buckets = new Map<string, CatalogItem[]>();
+
+    filtered.forEach((item) => {
+      const list = buckets.get(item.categoryId) ?? [];
+      list.push(item);
+      buckets.set(item.categoryId, list);
+    });
+
+    return categories
+      .map((entry) => ({
+        category: entry,
+        items: buckets.get(entry.id) ?? [],
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [filtered, categories]);
 
   function openProduct(item: CatalogItem) {
     setActive(item);
@@ -177,39 +315,14 @@ export function CatalogClient({
               </button>
             </div>
           ) : (
-            <div className="product-grid">
-              {filtered.map((item) => (
-                <button
-                  className="product"
-                  type="button"
-                  key={item.id}
-                  onClick={() => openProduct(item)}
-                >
-                  <span className="product__media">
-                    <Image
-                      src={item.image}
-                      alt={item.alt}
-                      fill
-                      loading="lazy"
-                      sizes="(max-width: 720px) 92vw, (max-width: 1120px) 45vw, 30vw"
-                    />
-                    {item.label ? <span className="badge">{item.label}</span> : null}
-                  </span>
-                  <span className="product__body">
-                    <span className="product__cat">
-                      {categoryName(item.categoryId)}
-                    </span>
-                    <span className="product__name">{item.name}</span>
-                    <span className="product__sizes">
-                      {item.sizes.length} ukuran
-                      {item.sizes[0] ? ` · ${item.sizes[0].label}` : ""}
-                    </span>
-                    <span className="product__foot">
-                      Lihat detail
-                      <ChevronRight />
-                    </span>
-                  </span>
-                </button>
+            <div className="catalog-groups">
+              {grouped.map((group) => (
+                <CategoryRail
+                  key={group.category.id}
+                  category={group.category}
+                  items={group.items}
+                  onOpen={openProduct}
+                />
               ))}
             </div>
           )}
@@ -225,7 +338,8 @@ export function CatalogClient({
             <a
               className="btn btn--dark"
               href={whatsappLink(
-                "Halo Karya Alam, saya ingin tanya ketersediaan ukuran batu alam.",
+                `Halo ${brandName}, saya ingin tanya ketersediaan ukuran batu alam.`,
+                whatsapp,
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -332,9 +446,10 @@ export function CatalogClient({
                 <a
                   className="btn btn--lime"
                   href={whatsappLink(
-                    `Halo Karya Alam, saya ingin tanya ketersediaan ${active.name}${
+                    `Halo ${brandName}, saya ingin tanya ketersediaan ${active.name}${
                       active.sizes[0] ? ` ukuran ${active.sizes[0].label}` : ""
                     }. Apakah stoknya tersedia?`,
+                    whatsapp,
                   )}
                   target="_blank"
                   rel="noopener noreferrer"

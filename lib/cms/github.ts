@@ -51,7 +51,7 @@ export function readGithubConfig(): GithubConfig | null {
 }
 
 type GithubRequest = {
-  method?: "GET" | "POST" | "PATCH";
+  method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
   accept?: string;
   revalidate?: number;
@@ -209,6 +209,28 @@ export async function githubListDir(
     }
     throw error;
   }
+}
+
+export async function githubDeleteFile(
+  config: GithubConfig,
+  file: string,
+  message: string,
+): Promise<void> {
+  const meta = await requestJson<{ sha?: string }>(
+    config,
+    contentEndpoint(config, file),
+    { cache: "no-store" },
+  );
+
+  if (!meta.sha) {
+    throw new Error(`Berkas ${file} tidak ditemukan di GitHub.`);
+  }
+
+  await request(config, `/contents/${encodePath(file)}`, {
+    method: "DELETE",
+    body: { message, sha: meta.sha, branch: config.branch },
+    cache: "no-store",
+  });
 }
 
 type GitRef = { object?: { sha?: string } };

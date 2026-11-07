@@ -3,15 +3,16 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-import { site } from "@/lib/site";
+import type { SiteSettings } from "@/lib/cms/site-settings";
 import { whatsappLink } from "@/lib/whatsapp";
 import { ChevronRight, CloseIcon, MapPin, MenuIcon, Moon, WhatsAppIcon } from "./icons";
 
 type SiteHeaderProps = {
   variant?: "home" | "catalog";
+  settings: SiteSettings;
 };
 
-export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
+export function SiteHeader({ variant = "home", settings }: SiteHeaderProps) {
   const headerRef = useRef<HTMLElement>(null);
   const drawerRef = useRef<HTMLDialogElement>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -70,12 +71,12 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
         <div className="wrap topbar__in">
           <p className="topbar__note">
             <MapPin />
-            {site.addressShort}
+            {settings.addressShort}
           </p>
           <div className="topbar__links">
-            <span>{site.hours}</span>
-            <a href={`tel:${site.phone.e164}`}>{site.phone.e164}</a>
-            <a href={site.mapsDirectionUrl} target="_blank" rel="noopener noreferrer">
+            <span>{settings.hours}</span>
+            <a href={`tel:${settings.phoneE164}`}>{settings.phoneE164}</a>
+            <a href={settings.mapsDirectionUrl} target="_blank" rel="noopener noreferrer">
               Petunjuk arah
             </a>
           </div>
@@ -84,12 +85,12 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
 
       <header className="site-head" id="siteHead" ref={headerRef}>
         <div className="wrap head__in">
-          <Link className="brand" href="/" aria-label="Karya Alam — beranda">
+          <Link className="brand" href="/" aria-label={`${settings.brandName} — beranda`}>
             <span className="brand__mark" aria-hidden="true">
               KA
             </span>
             <span>
-              <span className="brand__name">Karya Alam</span>
+              <span className="brand__name">{settings.brandName}</span>
               <span className="brand__tag">batu alam · kolam · taman</span>
             </span>
           </Link>
@@ -112,7 +113,8 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
             <a
               className="btn btn--lime btn--sm"
               href={whatsappLink(
-                "Halo Karya Alam, saya ingin konsultasi mengenai proyek saya.",
+                `Halo ${settings.brandName}, saya ingin konsultasi mengenai proyek saya.`,
+                settings.whatsapp,
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -168,7 +170,8 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
             <a
               className="btn btn--lime btn--block"
               href={whatsappLink(
-                "Halo Karya Alam, saya ingin konsultasi mengenai proyek saya.",
+                `Halo ${settings.brandName}, saya ingin konsultasi mengenai proyek saya.`,
+                settings.whatsapp,
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -177,9 +180,9 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
               Konsultasi Gratis
             </a>
             <p className="drawer__contact">
-              Jl. Kapten Haryadi, Dayakan, Sardonoharjo, Sleman
+              {settings.addressShort}
               <br />
-              {site.hours}
+              {settings.hours}
             </p>
           </div>
         </div>

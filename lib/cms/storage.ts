@@ -5,6 +5,7 @@ import { commitContent } from "@/lib/cms/git";
 import {
   GithubError,
   githubCommit,
+  githubDeleteFile,
   githubExists,
   githubListDir,
   githubReadFile,
@@ -35,6 +36,7 @@ export type Storage = {
   exists(file: string): Promise<boolean>;
   listDir(dir: string): Promise<StorageEntry[]>;
   commit(files: StorageFile[], message: string): Promise<void>;
+  remove(file: string): Promise<void>;
 };
 
 const ROOT = process.cwd();
@@ -133,6 +135,16 @@ const fileStorage: Storage = {
       message,
     );
   },
+
+  async remove(file) {
+    try {
+      await fs.unlink(resolveLocal(file));
+    } catch (error) {
+      if (!isMissing(error)) {
+        throw error;
+      }
+    }
+  },
 };
 
 /**
@@ -192,6 +204,19 @@ function githubStorage(config: GithubConfig): Storage {
 
     async commit(files, message) {
       await githubCommit(config, files, message);
+    },
+
+    async remove(file) {
+      try {
+        await githubDeleteFile(
+          config,
+          file,
+          `content: hapus media ${file.split("/").pop() ?? file}`,
+        );
+      } catch (error) {
+        console.warn(`[cms] hapus GitHub gagal (${file}).`, error);
+        await fileStorage.remove(file);
+      }
     },
   };
 }

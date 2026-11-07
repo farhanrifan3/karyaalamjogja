@@ -12,6 +12,7 @@ import { ServicesSection } from "@/components/site/ServicesSection";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import type { PromoItem } from "@/lib/cms/hero-promo";
+import { getSiteSettings } from "@/lib/cms/site-settings";
 import { getCatalogFromSupabase } from "@/lib/supabase-catalog";
 import { getHeroFromSupabase, getPromosFromSupabase, getProfilFromSupabase, getApprovedReviewsFromSupabase, getServicesFromSupabase, type ServiceItem } from "@/lib/supabase-data";
 import { buildLocalBusinessJsonLd } from "@/lib/schema";
@@ -52,7 +53,7 @@ function activePromos(promos: PromoItem[]): PromoItem[] {
 }
 
 export default async function HomePage() {
-  const [hero, promos, profil, servicesStore, reviews, catalog] =
+  const [hero, promos, profil, servicesStore, reviews, catalog, settings] =
     await Promise.all([
       getHeroFromSupabase(),
       getPromosFromSupabase(),
@@ -60,6 +61,7 @@ export default async function HomePage() {
       getServicesFromSupabase(),
       getApprovedReviewsFromSupabase(),
       getCatalogFromSupabase(),
+      getSiteSettings(),
     ]);
 
   const services: ServiceItem[] = servicesStore
@@ -81,29 +83,44 @@ export default async function HomePage() {
       </a>
 
       <RevealObserver />
-      <SiteHeader />
+      <SiteHeader settings={settings} />
 
       <main id="main">
         <Hero
           hero={hero}
           serviceCount={services.length}
           categoryCount={catalog.categories.length}
+          settings={settings}
         />
-        <PromoSection promos={activePromos(promos)} />
+        <PromoSection
+          promos={activePromos(promos)}
+          brandName={settings.brandName}
+          whatsapp={settings.whatsapp}
+        />
         <CategorySection
           categories={catalog.categories}
           items={catalog.items}
         />
         <ProfileSection profil={profil} />
-        <ServicesSection services={services} />
+        <ServicesSection
+          services={services}
+          brandName={settings.brandName}
+          whatsapp={settings.whatsapp}
+        />
         <InspirationSection />
-        <ReviewsSection reviews={reviews} />
-        <ContactSection />
-        <CtaBand />
+        <ReviewsSection reviews={reviews} settings={settings} />
+        <ContactSection settings={settings} />
+        <CtaBand
+          brandName={settings.brandName}
+          whatsapp={settings.whatsapp}
+        />
       </main>
 
-      <SiteFooter />
-      <ChatbotWidget />
+      <SiteFooter settings={settings} />
+      <ChatbotWidget
+        brandName={settings.brandName}
+        whatsapp={settings.whatsapp}
+      />
 
       <script
         type="application/ld+json"

@@ -12,6 +12,7 @@ import {
   SparkleIcon,
 } from "@/components/site/icons";
 import { getCatalogFromSupabase } from "@/lib/supabase-catalog";
+import { getSiteSettings } from "@/lib/cms/site-settings";
 
 export const metadata: Metadata = {
   title: "Katalog Batu Alam — Karya Alam",
@@ -27,7 +28,11 @@ type CatalogPageProps = {
 };
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
-  const [catalog, params] = await Promise.all([getCatalogFromSupabase(), searchParams]);
+  const [catalog, params, settings] = await Promise.all([
+    getCatalogFromSupabase(),
+    searchParams,
+    getSiteSettings(),
+  ]);
   const initialCategory = catalog.categories.some(
     (category) => category.id === params.kategori || category.slug === params.kategori,
   )
@@ -47,7 +52,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         Lompat ke konten
       </a>
 
-      <SiteHeader variant="catalog" />
+      <SiteHeader variant="catalog" settings={settings} />
 
       <main id="main">
         <div className="page-head">
@@ -86,11 +91,16 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           categories={catalog.categories}
           items={catalog.items}
           initialCategory={initialCategory ?? ""}
+          brandName={settings.brandName}
+          whatsapp={settings.whatsapp}
         />
       </main>
 
-      <SiteFooter />
-      <ChatbotWidget />
+      <SiteFooter settings={settings} />
+      <ChatbotWidget
+        brandName={settings.brandName}
+        whatsapp={settings.whatsapp}
+      />
     </>
   );
 }

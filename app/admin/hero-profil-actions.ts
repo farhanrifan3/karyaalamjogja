@@ -4,16 +4,26 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/cms/auth";
 import { redirectWithAdminFeedback } from "@/lib/cms/admin-feedback";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
+import { saveUpload } from "@/lib/cms/products";
+
+async function uploadIfPresent(formData: FormData): Promise<string | null> {
+  const file = formData.get("imageFile");
+  if (file instanceof File && file.size > 0) {
+    return await saveUpload(file);
+  }
+  return null;
+}
 
 export async function updateHeroAction(formData: FormData): Promise<void> {
   await requireAdmin();
 
   let saveFailed = false;
   try {
+    const uploaded = await uploadIfPresent(formData);
     const heroData = {
       headline: (formData.get("headline") as string) || "",
       subheadline: (formData.get("subheadline") as string) || "",
-      image: (formData.get("image") as string) || "/images/hero-garden.jpg",
+      image: uploaded || (formData.get("image") as string) || "/images/hero-garden.jpg",
       alt: (formData.get("alt") as string) || "",
       cta_text: (formData.get("ctaText") as string) || "Lihat Katalog",
       cta_link: (formData.get("ctaLink") as string) || "/katalog",
@@ -63,12 +73,16 @@ export async function savePromoAction(formData: FormData): Promise<void> {
 
     if (lookupError) throw lookupError;
 
+    const uploaded = await uploadIfPresent(formData);
     const promoData = {
       id,
       type: "promo",
       title: (formData.get("title") as string) || "",
       description: (formData.get("description") as string) || "",
-      image: (formData.get("image") as string) || "/images/andesit-rta.jpg",
+      image:
+        uploaded ||
+        (formData.get("image") as string) ||
+        "/images/andesit-rta.jpg",
       label: (formData.get("label") as string) || "",
       harga_normal: (formData.get("hargaNormal") as string) || "",
       harga_promo: (formData.get("hargaPromo") as string) || "",
@@ -154,12 +168,20 @@ export async function updateProfilAction(formData: FormData): Promise<void> {
 
     if (lookupError) throw lookupError;
 
+    const uploaded = await uploadIfPresent(formData);
+    const existingImages = Array.isArray(existing?.images)
+      ? (existing.images as string[])
+      : [];
+    const images = uploaded
+      ? [uploaded, ...existingImages.slice(1)]
+      : existingImages;
+
     const { error } = await admin.from("profil").upsert(
       {
         id: "main",
         ...profilData,
         stats: parsed,
-        images: existing?.images ?? [],
+        images,
         updated_at: new Date().toISOString(),
       },
       { onConflict: "id" },

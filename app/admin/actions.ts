@@ -89,6 +89,9 @@ export async function saveProductAction(
     description: cleanText(formData.get("description")),
     use: cleanText(formData.get("use")),
     character: cleanText(formData.get("character")),
+    label: cleanText(formData.get("label")),
+    status: cleanText(formData.get("status")) || "tampil",
+    sizes: String(formData.get("sizes") ?? "").trim(),
     image: String(formData.get("imagePath") ?? "").trim(),
     alt: cleanText(formData.get("alt")),
   };

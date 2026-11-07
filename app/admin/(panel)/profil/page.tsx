@@ -25,6 +25,33 @@ export default async function AdminProfilPage() {
               <input type="text" id="title" name="title" defaultValue={profil.title} required />
             </div>
             <div className="admin-field">
+              <label htmlFor="imageFile">Foto Profil (JPG / PNG, rasio 9:16)</label>
+              <input
+                type="file"
+                id="imageFile"
+                name="imageFile"
+                accept="image/jpeg,image/png"
+              />
+              <small className="admin-field__hint">
+                Unggah foto potret dengan rasio 9:16. Kosongkan jika tidak ingin
+                mengganti. Maksimal 4 MB.
+              </small>
+              {profil.images[0] ? (
+                <img
+                  src={profil.images[0]}
+                  alt="Foto profil saat ini"
+                  style={{
+                    marginTop: "0.75rem",
+                    width: "100%",
+                    maxWidth: "180px",
+                    aspectRatio: "9 / 16",
+                    objectFit: "cover",
+                    borderRadius: "10px",
+                  }}
+                />
+              ) : null}
+            </div>
+            <div className="admin-field">
               <label htmlFor="narrative">Narasi / Isi Sejarah & Prinsip Usaha</label>
               <textarea id="narrative" name="narrative" rows={8} defaultValue={profil.narrative} required />
               <small className="admin-field__hint">Gunakan paragraf baru untuk memisahkan sejarah dan komitmen pelayanan.</small>

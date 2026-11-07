@@ -1,9 +1,10 @@
 import Link from "next/link";
 
+import type { SiteSettings } from "@/lib/cms/site-settings";
 import { site } from "@/lib/site";
 import { whatsappLink } from "@/lib/whatsapp";
 
-export function SiteFooter() {
+export function SiteFooter({ settings }: { settings: SiteSettings }) {
   const year = new Date().getFullYear();
 
   return (
@@ -11,19 +12,19 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="foot-grid">
           <div>
-            <Link className="brand" href="/" aria-label="Karya Alam — beranda">
+            <Link className="brand" href="/" aria-label={`${settings.brandName} — beranda`}>
               <span className="brand__mark" aria-hidden="true">
                 KA
               </span>
               <span>
-                <span className="brand__name">Karya Alam</span>
+                <span className="brand__name">{settings.brandName}</span>
                 <span className="brand__tag">batu alam · kolam · taman</span>
               </span>
             </Link>
             <p className="foot-about">
-              Pangkalan batu alam, kolam, tebing, dan taman di Jl. Kapten
-              Haryadi, Sardonoharjo, Ngaglik, Sleman. Melayani Yogyakarta dan
-              sekitarnya sejak {site.foundedYear}.
+              Pangkalan batu alam, kolam, tebing, dan taman di{" "}
+              {settings.addressShort}. Melayani Yogyakarta dan sekitarnya sejak{" "}
+              {site.foundedYear}.
             </p>
           </div>
 
@@ -70,23 +71,23 @@ export function SiteFooter() {
             <span className="foot-title">Kontak</span>
             <ul className="foot-list">
               <li>
-                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
-                  {site.phone.e164}
+                <a
+                  href={whatsappLink(undefined, settings.whatsapp)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {settings.phoneE164}
                 </a>
               </li>
               <li>
-                <span>
-                  Jl. Kapten Haryadi, Dayakan,
-                  <br />
-                  Sardonoharjo, Sleman 55581
-                </span>
+                <span>{settings.addressFull}</span>
               </li>
               <li>
-                <span>{site.hours}</span>
+                <span>{settings.hours}</span>
               </li>
               <li>
                 <a
-                  href={site.mapsDirectionUrl}
+                  href={settings.mapsDirectionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -99,7 +100,7 @@ export function SiteFooter() {
 
         <div className="foot-bottom">
           <span>
-            © {year} {site.name}. Seluruh hak cipta dilindungi.
+            © {year} {settings.brandName}. Seluruh hak cipta dilindungi.
           </span>
           <span>Harga promo berlaku selama periode tayang.</span>
         </div>

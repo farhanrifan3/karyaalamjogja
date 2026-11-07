@@ -6,7 +6,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { saveProductAction, type ProductFormState } from "@/app/admin/actions";
 import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import type { CmsProduct, LibraryImage, ProductCategory } from "@/lib/cms/products";
-import { PRODUCT_LIMITS } from "@/lib/cms/product-input";
+import { PRODUCT_LIMITS, PRODUCT_STATUSES, formatSizes } from "@/lib/cms/product-input";
 
 type ProductFormProps = {
   product: CmsProduct | null;
@@ -206,6 +206,63 @@ export function ProductForm({ product, library, categories }: ProductFormProps) 
               />
               <FieldError id="character-error" message={errors.character} />
             </div>
+          </div>
+
+          <div className="admin-fields__pair">
+            <div className="admin-field">
+              <label htmlFor="label">Label / motif</label>
+              <input
+                id="label"
+                name="label"
+                type="text"
+                maxLength={PRODUCT_LIMITS.label}
+                defaultValue={state.values?.label ?? product?.label ?? ""}
+                placeholder="Contoh: Urat alami"
+                aria-invalid={Boolean(errors.label)}
+                aria-describedby={errors.label ? "label-error" : "label-hint"}
+              />
+              <p className="admin-field__hint" id="label-hint">
+                Keterangan singkat motif atau varian yang tampil di kartu.
+              </p>
+              <FieldError id="label-error" message={errors.label} />
+            </div>
+
+            <div className="admin-field">
+              <label htmlFor="status">Status tampil</label>
+              <select
+                id="status"
+                name="status"
+                defaultValue={state.values?.status ?? product?.status ?? "tampil"}
+                aria-invalid={Boolean(errors.status)}
+                aria-describedby={errors.status ? "status-error" : undefined}
+              >
+                {PRODUCT_STATUSES.map((status) => (
+                  <option key={status.value} value={status.value}>
+                    {status.label}
+                  </option>
+                ))}
+              </select>
+              <FieldError id="status-error" message={errors.status} />
+            </div>
+          </div>
+
+          <div className="admin-field">
+            <label htmlFor="sizes">Ukuran tersedia</label>
+            <textarea
+              id="sizes"
+              name="sizes"
+              rows={4}
+              maxLength={PRODUCT_LIMITS.sizes}
+              defaultValue={state.values?.sizes ?? formatSizes(product?.sizes ?? [])}
+              placeholder={"60 x 60 | cm\n30 x 60 | cm\nAcak | m²"}
+              aria-invalid={Boolean(errors.sizes)}
+              aria-describedby={errors.sizes ? "sizes-error" : "sizes-hint"}
+            />
+            <p className="admin-field__hint" id="sizes-hint">
+              Satu ukuran per baris, format <code>label | satuan</code>. Satuan
+              opsional. Contoh: <code>60 x 60 | cm</code>.
+            </p>
+            <FieldError id="sizes-error" message={errors.sizes} />
           </div>
 
           <div className="admin-field">

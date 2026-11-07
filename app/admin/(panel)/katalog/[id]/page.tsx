@@ -37,8 +37,8 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
           <p className="admin-eyebrow">Ubah barang</p>
           <h1 className="admin-title">{product.name}</h1>
           <p className="admin-lead">
-            Perbarui keterangan atau ganti fotonya. Foto lama tetap tersimpan
-            di galeri.
+            Perbarui kategori, ukuran, motif, keterangan, atau fotonya. Foto lama
+            tetap tersimpan di galeri.
           </p>
         </div>
       </header>

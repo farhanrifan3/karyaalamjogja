@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { site } from "@/lib/site";
 import type { HeroData } from "@/lib/cms/hero-promo";
+import type { SiteSettings } from "@/lib/cms/site-settings";
 import { whatsappLink } from "@/lib/whatsapp";
 import { ChevronRight, WhatsAppIcon } from "./icons";
 
@@ -9,9 +10,10 @@ type HeroProps = {
   hero: HeroData;
   serviceCount: number;
   categoryCount: number;
+  settings: SiteSettings;
 };
 
-export function Hero({ hero, serviceCount, categoryCount }: HeroProps) {
+export function Hero({ hero, serviceCount, categoryCount, settings }: HeroProps) {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero__media">
@@ -36,7 +38,8 @@ export function Hero({ hero, serviceCount, categoryCount }: HeroProps) {
             <a
               className="btn btn--ghost"
               href={whatsappLink(
-                "Halo Karya Alam, saya ingin konsultasi gratis.",
+                `Halo ${settings.brandName}, saya ingin konsultasi gratis.`,
+                settings.whatsapp,
               )}
               target="_blank"
               rel="noopener noreferrer"

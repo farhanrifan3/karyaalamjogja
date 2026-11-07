@@ -32,8 +32,22 @@ export default async function AdminHeroPromoPage() {
             </div>
             <div className="admin-fields__pair">
               <div className="admin-field">
-                <label htmlFor="image">Path Gambar Hero</label>
-                <input type="text" id="image" name="image" defaultValue={content.hero.image} required />
+                <label htmlFor="heroImageFile">Gambar Hero (JPG / PNG)</label>
+                <input
+                  type="file"
+                  id="heroImageFile"
+                  name="imageFile"
+                  accept="image/jpeg,image/png"
+                />
+                <small className="admin-field__hint">
+                  Kosongkan jika tidak ingin mengganti gambar. Maksimal 4 MB.
+                </small>
+                <img
+                  src={content.hero.image}
+                  alt={content.hero.alt}
+                  style={{ marginTop: "0.75rem", width: "100%", maxWidth: "260px", borderRadius: "10px" }}
+                />
+                <input type="hidden" name="image" value={content.hero.image} />
               </div>
               <div className="admin-field">
                 <label htmlFor="alt">Teks Alt Gambar</label>
@@ -128,8 +142,17 @@ export default async function AdminHeroPromoPage() {
               </div>
               <div className="admin-fields__pair">
                 <div className="admin-field">
-                  <label htmlFor="image">Path Gambar Promo</label>
-                  <input type="text" id="image" name="image" defaultValue="/images/andesit-rta.jpg" required />
+                  <label htmlFor="promoImageFile">Gambar Promo (JPG / PNG)</label>
+                  <input
+                    type="file"
+                    id="promoImageFile"
+                    name="imageFile"
+                    accept="image/jpeg,image/png"
+                    required
+                  />
+                  <small className="admin-field__hint">
+                    Unggah foto penawaran. Maksimal 4 MB.
+                  </small>
                 </div>
                 <div className="admin-field">
                   <label htmlFor="urutan">Urutan Tampil</label>

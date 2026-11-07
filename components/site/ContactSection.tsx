@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { site } from "@/lib/site";
+import type { SiteSettings } from "@/lib/cms/site-settings";
 import { whatsappLink } from "@/lib/whatsapp";
 import { ClockIcon, MapPin, WhatsAppIcon } from "./icons";
 
@@ -17,7 +17,7 @@ const needs = [
   "Maintenance",
 ];
 
-export function ContactSection() {
+export function ContactSection({ settings }: { settings: SiteSettings }) {
   const [status, setStatus] = useState<string | null>(null);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -32,10 +32,17 @@ export function ContactSection() {
       return;
     }
 
-    const text = `Halo Karya Alam, saya ${name}.\nKebutuhan: ${need}.\n${message}`;
-    window.open(whatsappLink(text), "_blank", "noopener,noreferrer");
+    const text = `Halo ${settings.brandName}, saya ${name}.\nKebutuhan: ${need}.\n${message}`;
+    window.open(
+      whatsappLink(text, settings.whatsapp),
+      "_blank",
+      "noopener,noreferrer",
+    );
     setStatus("Membuka WhatsApp...");
   }
+
+  const instagramHandle =
+    settings.instagram.match(/instagram\.com\/([^/?#]+)/i)?.[1] ?? "";
 
   return (
     <section className="section" id="kontak" aria-labelledby="kontak-title">
@@ -58,11 +65,11 @@ export function ContactSection() {
                   <span className="contact-row__label">WhatsApp</span>
                   <a
                     className="contact-row__value"
-                    href={whatsappLink()}
+                    href={whatsappLink(undefined, settings.whatsapp)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {site.phone.e164}
+                    {settings.phoneE164}
                   </a>
                 </span>
               </div>
@@ -74,9 +81,7 @@ export function ContactSection() {
                 <span>
                   <span className="contact-row__label">Pangkalan</span>
                   <span className="contact-row__value">
-                    Jl. Kapten Haryadi, Dayakan, Sardonoharjo,
-                    <br />
-                    Ngaglik, Sleman, D.I. Yogyakarta 55581
+                    {settings.addressFull}
                   </span>
                 </span>
               </div>
@@ -87,7 +92,7 @@ export function ContactSection() {
                 </span>
                 <span>
                   <span className="contact-row__label">Jam operasional</span>
-                  <span className="contact-row__value">{site.hours}</span>
+                  <span className="contact-row__value">{settings.hours}</span>
                 </span>
               </div>
             </div>
@@ -95,7 +100,10 @@ export function ContactSection() {
             <div className="contact__cta">
               <a
                 className="btn btn--dark"
-                href={whatsappLink("Halo Karya Alam, saya ingin konsultasi.")}
+                href={whatsappLink(
+                  `Halo ${settings.brandName}, saya ingin konsultasi.`,
+                  settings.whatsapp,
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -104,7 +112,7 @@ export function ContactSection() {
               </a>
               <a
                 className="btn btn--outline"
-                href={site.mapsDirectionUrl}
+                href={settings.mapsDirectionUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -116,11 +124,11 @@ export function ContactSection() {
             <p className="profile__link" style={{ marginTop: "1.25rem" }}>
               <a
                 className="link-arrow"
-                href={site.socials.instagram}
+                href={settings.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Instagram @karyaalam_yogyakarta
+                Instagram {instagramHandle ? `@${instagramHandle}` : ""}
               </a>
             </p>
           </div>

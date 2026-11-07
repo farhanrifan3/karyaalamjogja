@@ -24,9 +24,15 @@ const maintenance = {
 
 type ServicesSectionProps = {
   services: ServiceItem[];
+  brandName: string;
+  whatsapp: string;
 };
 
-export function ServicesSection({ services }: ServicesSectionProps) {
+export function ServicesSection({
+  services,
+  brandName,
+  whatsapp,
+}: ServicesSectionProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [active, setActive] = useState<ServiceItem | null>(null);
   const [frequency, setFrequency] = useState<"mingguan" | "bulanan">("mingguan");
@@ -60,7 +66,10 @@ export function ServicesSection({ services }: ServicesSectionProps) {
           <div className="section-head__aside">
             <a
               className="link-arrow"
-              href={whatsappLink("Halo Karya Alam, saya ingin konsultasi layanan.")}
+              href={whatsappLink(
+                `Halo ${brandName}, saya ingin konsultasi layanan.`,
+                whatsapp,
+              )}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -116,7 +125,8 @@ export function ServicesSection({ services }: ServicesSectionProps) {
             <a
               className="btn btn--dark maint__cta"
               href={whatsappLink(
-                "Halo Karya Alam, saya ingin tanya paket maintenance kolam dan taman.",
+                `Halo ${brandName}, saya ingin tanya paket maintenance kolam dan taman.`,
+                whatsapp,
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -204,7 +214,8 @@ export function ServicesSection({ services }: ServicesSectionProps) {
                 <a
                   className="btn btn--lime"
                   href={whatsappLink(
-                    `Halo Karya Alam, saya ingin konsultasi layanan ${active.name}.`,
+                    `Halo ${brandName}, saya ingin konsultasi layanan ${active.name}.`,
+                    whatsapp,
                   )}
                   target="_blank"
                   rel="noopener noreferrer"

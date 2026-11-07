@@ -6,8 +6,10 @@ import {
   IMAGE_PATTERN,
   MAX_UPLOAD_BYTES,
   cleanText,
+  parseSizes,
   validateProductDraft,
   type ProductDraft,
+  type ProductSize,
 } from "@/lib/cms/product-input";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
@@ -19,6 +21,9 @@ const MAX_AUDIT_ENTRIES = 400;
 
 export type CmsProduct = Product & {
   categoryId: string;
+  status: string;
+  label: string;
+  sizes: ProductSize[];
 };
 
 export type ProductCategory = {
@@ -71,6 +76,24 @@ function slugify(value: string): string {
     .slice(0, 48);
 }
 
+function mapSizes(value: unknown): ProductSize[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter(
+      (item): item is Record<string, unknown> =>
+        Boolean(item) && typeof item === "object",
+    )
+    .map((item) => ({
+      label: cleanText(item.label),
+      satuan: cleanText(item.satuan),
+      aktif: item.aktif !== false,
+    }))
+    .filter((size) => size.label.length > 0);
+}
+
 function mapProduct(row: ProductRow): CmsProduct {
   const use = Array.isArray(row.use)
     ? row.use.filter((item): item is string => typeof item === "string").join(", ")
@@ -85,6 +108,9 @@ function mapProduct(row: ProductRow): CmsProduct {
     character: row.character ?? "",
     image: row.image || FALLBACK_IMAGE,
     alt: row.alt || row.name || "",
+    status: row.status || "tampil",
+    label: row.label ?? "",
+    sizes: mapSizes(row.sizes),
   };
 }
 
@@ -234,12 +260,12 @@ export async function createProduct(draft: ProductDraft): Promise<CmsProduct> {
       description: draft.description,
       use: toDatabaseUse(draft.use),
       character: draft.character,
+      label: draft.label,
+      status: draft.status || "tampil",
       image: draft.image,
       alt: draft.alt,
-      status: "tampil",
-      label: "",
       urutan: (lastProduct?.urutan ?? 0) + 1,
-      sizes: [],
+      sizes: parseSizes(draft.sizes),
       comparison: null,
     };
 
@@ -302,8 +328,11 @@ export async function updateProduct(
         description: draft.description,
         use: toDatabaseUse(draft.use),
         character: draft.character,
+        label: draft.label,
+        status: draft.status || "tampil",
         image: draft.image,
         alt: draft.alt,
+        sizes: parseSizes(draft.sizes),
       })
       .eq("id", id)
       .select("*")

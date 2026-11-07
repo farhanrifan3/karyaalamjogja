@@ -1,5 +1,5 @@
 import type { ReviewItem } from "@/lib/cms/reviews";
-import { site } from "@/lib/site";
+import type { SiteSettings } from "@/lib/cms/site-settings";
 import { ReviewForm } from "@/components/ui/ReviewForm";
 import { ExternalIcon, Star } from "./icons";
 
@@ -29,7 +29,13 @@ function score(value: number): string {
   });
 }
 
-export function ReviewsSection({ reviews }: { reviews: ReviewItem[] }) {
+export function ReviewsSection({
+  reviews,
+  settings,
+}: {
+  reviews: ReviewItem[];
+  settings: SiteSettings;
+}) {
   const website = reviews.filter((review) => review.source !== "google");
   const google = reviews.filter((review) => review.source === "google");
   const websiteScore = average(website);
@@ -134,7 +140,7 @@ export function ReviewsSection({ reviews }: { reviews: ReviewItem[] }) {
 
             <a
               className="btn btn--lime btn--block"
-              href={site.mapsDirectionUrl}
+              href={settings.mapsDirectionUrl}
               target="_blank"
               rel="noopener noreferrer"
             >

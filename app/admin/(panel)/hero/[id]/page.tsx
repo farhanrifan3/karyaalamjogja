@@ -64,8 +64,22 @@ export default async function EditPromoPage({
             </div>
             <div className="admin-fields__pair">
               <div className="admin-field">
-                <label htmlFor="image">Path Gambar Promo</label>
-                <input type="text" id="image" name="image" defaultValue={promo.image} required />
+                <label htmlFor="imageFile">Gambar Promo (JPG / PNG)</label>
+                <input
+                  type="file"
+                  id="imageFile"
+                  name="imageFile"
+                  accept="image/jpeg,image/png"
+                />
+                <small className="admin-field__hint">
+                  Kosongkan jika tidak ingin mengganti gambar. Maksimal 4 MB.
+                </small>
+                <img
+                  src={promo.image}
+                  alt={promo.title}
+                  style={{ marginTop: "0.75rem", width: "100%", maxWidth: "260px", borderRadius: "10px" }}
+                />
+                <input type="hidden" name="image" value={promo.image} />
               </div>
               <div className="admin-field">
                 <label htmlFor="urutan">Urutan Tampil</label>

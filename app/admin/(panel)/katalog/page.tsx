@@ -4,14 +4,20 @@ import Link from "next/link";
 import { moveProductAction } from "@/app/admin/actions";
 import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { DeleteProductForm } from "@/components/admin/DeleteProductForm";
-import { getProducts } from "@/lib/cms/products";
+import { getProductCategories, getProducts } from "@/lib/cms/products";
 
 export const metadata = {
   title: "Katalog",
 };
 
 export default async function CatalogPage() {
-  const products = await getProducts();
+  const [products, categories] = await Promise.all([
+    getProducts(),
+    getProductCategories(),
+  ]);
+  const categoryNames = new Map(
+    categories.map((category) => [category.id, category.name]),
+  );
 
   return (
     <div className="admin-page">
@@ -22,8 +28,8 @@ export default async function CatalogPage() {
           </p>
           <h1 className="admin-title">Barang di pangkalan.</h1>
           <p className="admin-lead">
-            Tambah barang baru, ganti fotonya, atau atur urutan tampil di bab
-            Batu. Semua perubahan langsung tersimpan ke konten situs.
+            Tambah barang baru, atur kategori, ukuran, motif, status tampil, dan
+            urutannya. Semua perubahan langsung tersimpan ke katalog publik.
           </p>
         </div>
 
@@ -62,7 +68,9 @@ export default async function CatalogPage() {
 
               <div className="admin-card__body">
                 <p className="admin-card__index">
-                  {String(index + 1).padStart(2, "0")}
+                  {String(index + 1).padStart(2, "0")} ·{" "}
+                  {categoryNames.get(product.categoryId) ?? product.categoryId}
+                  {product.status !== "tampil" ? ` · ${product.status}` : ""}
                 </p>
                 <h2 className="admin-card__name">{product.name}</h2>
                 <p className="admin-card__text">{product.description}</p>
@@ -75,6 +83,24 @@ export default async function CatalogPage() {
                   <div>
                     <dt>Sifat</dt>
                     <dd>{product.character}</dd>
+                  </div>
+                  <div>
+                    <dt>Motif</dt>
+                    <dd>{product.label || "—"}</dd>
+                  </div>
+                  <div>
+                    <dt>Ukuran</dt>
+                    <dd>
+                      {product.sizes.length > 0
+                        ? product.sizes
+                            .map((size) =>
+                              size.satuan
+                                ? `${size.label} · ${size.satuan}`
+                                : size.label,
+                            )
+                            .join(", ")
+                        : "Belum diisi"}
+                    </dd>
                   </div>
                 </dl>
               </div>

@@ -3,7 +3,13 @@ import Link from "next/link";
 import { whatsappLink } from "@/lib/whatsapp";
 import { ChevronRight } from "./icons";
 
-export function CtaBand() {
+export function CtaBand({
+  brandName,
+  whatsapp,
+}: {
+  brandName: string;
+  whatsapp: string;
+}) {
   return (
     <section className="band-cta" aria-labelledby="cta-band-title">
       <div className="wrap band-cta__in">
@@ -20,7 +26,8 @@ export function CtaBand() {
           <a
             className="btn btn--dark"
             href={whatsappLink(
-              "Halo Karya Alam, saya ingin konsultasi dan minta RAB.",
+              `Halo ${brandName}, saya ingin konsultasi dan minta RAB.`,
+              whatsapp,
             )}
             target="_blank"
             rel="noopener noreferrer"

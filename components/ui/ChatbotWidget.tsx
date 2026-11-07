@@ -19,15 +19,25 @@ type Message = {
 
 const STORAGE_KEY = "karya_alam_chat_history";
 
-const INITIAL_MESSAGE: Message = {
-  sender: "bot",
-  text: "Halo! Saya Asisten RAB Karya Alam. Spesialis kolam koi, kolam renang, tebing, taman, dan batu alam sejak 1986.\n\nContoh format tulis ukuran:\n👉 \"taman 1,5x6\"\n👉 \"kolam koi 4x3\"\n\nAda proyek apa yang ingin Anda diskusikan hari ini?",
-};
+function initialMessage(brandName: string): Message {
+  return {
+    sender: "bot",
+    text: `Halo! Saya Asisten RAB ${brandName}. Spesialis kolam koi, kolam renang, tebing, taman, dan batu alam sejak 1986.\n\nContoh format tulis ukuran:\n👉 "taman 1,5x6"\n👉 "kolam koi 4x3"\n\nAda proyek apa yang ingin Anda diskusikan hari ini?`,
+  };
+}
 
-export function ChatbotWidget() {
+export function ChatbotWidget({
+  brandName,
+  whatsapp,
+}: {
+  brandName: string;
+  whatsapp: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>(() => [
+    initialMessage(brandName),
+  ]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -48,7 +58,7 @@ export function ChatbotWidget() {
   }, [messages]);
 
   function handleResetChat() {
-    setMessages([INITIAL_MESSAGE]);
+    setMessages([initialMessage(brandName)]);
   }
 
   async function handleSend(event: React.FormEvent) {
@@ -165,7 +175,8 @@ export function ChatbotWidget() {
                     className="btn btn--lime btn--sm btn--block"
                     style={{ marginTop: "0.6rem" }}
                     href={whatsappLink(
-                      `Halo Karya Alam, saya ingin konsultasi RAB berdasarkan hitungan chatbot: ${message.rab.title} (Estimasi Total: Rp${message.rab.total.toLocaleString("id-ID")})`,
+                      `Halo ${brandName}, saya ingin konsultasi RAB berdasarkan hitungan chatbot: ${message.rab.title} (Estimasi Total: Rp${message.rab.total.toLocaleString("id-ID")})`,
+                      whatsapp,
                     )}
                     target="_blank"
                     rel="noopener noreferrer"

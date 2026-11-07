@@ -15,7 +15,15 @@ function untilLabel(value: string): string | null {
   });
 }
 
-export function PromoSection({ promos }: { promos: PromoItem[] }) {
+export function PromoSection({
+  promos,
+  brandName,
+  whatsapp,
+}: {
+  promos: PromoItem[];
+  brandName: string;
+  whatsapp: string;
+}) {
   if (promos.length === 0) return null;
 
   return (
@@ -42,7 +50,7 @@ export function PromoSection({ promos }: { promos: PromoItem[] }) {
         <div className="promo-grid">
           {promos.map((promo) => {
             const until = untilLabel(promo.selesaiTayang);
-            const message = `Halo Karya Alam, saya tertarik ${promo.title} (${promo.hargaPromo}). Bisa minta detailnya?`;
+            const message = `Halo ${brandName}, saya tertarik ${promo.title} (${promo.hargaPromo}). Bisa minta detailnya?`;
 
             return (
               <article className="promo reveal" key={promo.id}>
@@ -68,7 +76,7 @@ export function PromoSection({ promos }: { promos: PromoItem[] }) {
                   </p>
                   <a
                     className="promo__cta"
-                    href={whatsappLink(message)}
+                    href={whatsappLink(message, whatsapp)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

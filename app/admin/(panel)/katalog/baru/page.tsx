@@ -26,8 +26,8 @@ export default async function NewProductPage() {
           <p className="admin-eyebrow">Barang baru</p>
           <h1 className="admin-title">Tambah barang ke katalog.</h1>
           <p className="admin-lead">
-            Isi nama, keterangan singkat, dan satu foto. Setelah disimpan,
-            barang langsung muncul di bab Batu pada halaman publik.
+            Isi nama, kategori, ukuran, motif, keterangan singkat, dan satu foto.
+            Setelah disimpan, barang langsung muncul di katalog publik.
           </p>
         </div>
       </header>

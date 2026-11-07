@@ -161,6 +161,26 @@ const FEEDBACK_MESSAGES: Record<string, ToastMessage> = {
     title: "Transaksi belum berubah",
     message: "Periksa isian dan coba lagi.",
   },
+  "media-deleted": {
+    tone: "success",
+    title: "Media dihapus permanen",
+    message: "Berkas sudah dibuang dari penyimpanan situs.",
+  },
+  "media-delete-failed": {
+    tone: "error",
+    title: "Media belum terhapus",
+    message: "Berkas gagal dihapus. Coba lagi beberapa saat lagi.",
+  },
+  "settings-saved": {
+    tone: "success",
+    title: "Identitas tersimpan",
+    message: "Nama brand, kontak, dan tautan sudah diperbarui di situs.",
+  },
+  "settings-save-failed": {
+    tone: "error",
+    title: "Identitas belum tersimpan",
+    message: "Periksa isian dan koneksi, lalu coba simpan kembali.",
+  },
 };
 
 export function AdminFeedback() {
