@@ -142,23 +142,21 @@ mengatur urutan tanpa membuka kode.
 - Foto unggahan disajikan lewat route `/uploads/[...file]` karena berkas yang
   dibuat setelah build tidak masuk manifes statis Next.
 - Perubahan katalog disimpan ke tabel `products` di Supabase dan dicatat di
-  `content/audit-log.json` (tambah/ubah/hapus/urutkan). Halaman publik
-  direvalidasi otomatis setelah simpan.
+  tabel `audit_logs` (tambah/ubah/hapus/urutkan). Halaman publik direvalidasi
+  otomatis setelah simpan.
 - Modul keuangan memakai tabel `finance_settings` dan `finance_transactions`.
 - Harga master memakai tabel `hero_promo` dengan `type = "price"` selama tabel
   `prices` khusus belum tersedia.
-- Set `CMS_GIT_COMMIT=1` bila ingin setiap perubahan audit/berkas konten
-  otomatis menjadi commit git.
+- Set `CMS_GIT_COMMIT=1` bila ingin perubahan berkas di `content/` otomatis
+  menjadi commit git. Audit log tidak lagi memakai berkas.
 
 ### Penyimpanan dan deploy
 
-Data konten, keuangan, harga, dan foto unggahan tersimpan di Supabase sehingga
-tetap persisten di Vercel. Foto baru masuk ke bucket publik
-`karya-alam-media` melalui Supabase Storage. Yang masih memakai filesystem
-adalah audit log; di Vercel filesystem bersifat read-only, jadi audit log
-memerlukan `CMS_STORAGE=github` beserta `GITHUB_TOKEN` dan `GITHUB_REPO` bila
-ingin persisten. Halaman publik sendiri tetap statis dan tidak memuat
-JavaScript CMS.
+Data konten, keuangan, harga, foto unggahan, dan audit log tersimpan di
+Supabase sehingga tetap persisten di Vercel. Foto baru masuk ke bucket publik
+`karya-alam-media` melalui Supabase Storage, sedangkan audit log masuk ke tabel
+`audit_logs`. Berkas di `content/` hanya menjadi cadangan/seed lama. Halaman
+publik sendiri tetap statis dan tidak memuat JavaScript CMS.
 
 ### Konfigurasi panel
 

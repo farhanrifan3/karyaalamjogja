@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 
 import type { Product } from "@/lib/types";
-import { getStorage } from "@/lib/cms/storage";
 import {
   cleanText,
   parseSizes,
@@ -9,11 +8,10 @@ import {
   type ProductDraft,
   type ProductSize,
 } from "@/lib/cms/product-input";
+import { recordAudit } from "@/lib/cms/audit";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
-const AUDIT_PATH = "content/audit-log.json";
 const FALLBACK_IMAGE = "/images/batu-andesit.jpg";
-const MAX_AUDIT_ENTRIES = 400;
 
 export type CmsProduct = Product & {
   categoryId: string;
@@ -42,13 +40,6 @@ type ProductRow = {
   urutan?: number | null;
   sizes?: unknown;
   comparison?: unknown;
-};
-
-type AuditEntry = {
-  at: string;
-  action: "tambah" | "ubah" | "hapus" | "urutkan";
-  product: string;
-  detail?: string;
 };
 
 /** Serialize writes within this process to avoid overlapping order changes. */
@@ -129,38 +120,6 @@ async function assertCategoryExists(categoryId: string): Promise<void> {
   }
   if (!data) {
     throw new Error("Kategori barang tidak ditemukan. Pilih kategori yang tersedia.");
-  }
-}
-
-function serialize(value: unknown): string {
-  return `${JSON.stringify(value, null, 2)}\n`;
-}
-
-async function buildAudit(entry: AuditEntry): Promise<string> {
-  let entries: AuditEntry[] = [];
-
-  try {
-    const raw = await getStorage().readText(AUDIT_PATH);
-    if (raw) {
-      const parsed: unknown = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        entries = parsed as AuditEntry[];
-      }
-    }
-  } catch (error) {
-    console.error("[cms] gagal membaca audit log:", error);
-  }
-
-  entries.unshift(entry);
-  return serialize(entries.slice(0, MAX_AUDIT_ENTRIES));
-}
-
-async function recordAudit(entry: AuditEntry, message: string): Promise<void> {
-  try {
-    const audit = await buildAudit(entry);
-    await getStorage().commit([{ path: AUDIT_PATH, data: audit }], message);
-  } catch (error) {
-    console.error("[cms] gagal menyimpan audit log katalog:", error);
   }
 }
 
@@ -283,7 +242,6 @@ export async function createProduct(draft: ProductDraft): Promise<CmsProduct> {
         product: product.name,
         detail: `Foto: ${product.image}`,
       },
-      `cms: audit tambah barang ${product.name}`,
     );
 
     return product;
@@ -350,7 +308,6 @@ export async function updateProduct(
             ? `Foto: ${previousProduct.image} -> ${product.image}`
             : undefined,
       },
-      `cms: audit ubah barang ${product.name}`,
     );
 
     return product;
@@ -386,7 +343,6 @@ export async function deleteProduct(id: string): Promise<void> {
         product: product.name,
         detail: `Foto lama tetap disimpan: ${product.image}`,
       },
-      `cms: audit hapus barang ${product.name}`,
     );
   });
 }
@@ -444,7 +400,6 @@ export async function moveProduct(
         product: currentProduct.name,
         detail: direction === "up" ? "Naik satu posisi" : "Turun satu posisi",
       },
-      "cms: audit ubah urutan katalog",
     );
   });
 }

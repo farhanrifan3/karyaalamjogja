@@ -42,4 +42,4 @@ Diuji end-to-end lewat server action pada `next start` lokal:
 Foto uji bisa diakses publik (HTTP 200) dan muncul di `/admin/media`. Semua data serta foto uji sudah dihapus dan data hero/profil asli dipulihkan.
 
 ## Langkah berikutnya
-Bila ingin audit log juga persisten di Vercel, aktifkan `CMS_STORAGE=github` beserta `GITHUB_TOKEN` dan `GITHUB_REPO`. Audit log masih memakai filesystem.
+Audit log sudah dipindahkan ke tabel Supabase `audit_logs`, jadi tidak ada lagi ketergantungan filesystem untuk unggahan foto maupun audit.
