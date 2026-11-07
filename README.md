@@ -172,9 +172,16 @@ Untuk URL produksi (metadata, sitemap, JSON-LD), buat `.env.local`:
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://karyaalamjogja.com
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+KA_SUPABASE_URL=https://your-project.supabase.co
+KA_SUPABASE_ANON_KEY=your-supabase-anon-key
+KA_SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 ```
+
+`KA_SUPABASE_*` diutamakan. Variabel lama `NEXT_PUBLIC_SUPABASE_URL`,
+`NEXT_PUBLIC_SUPABASE_ANON_KEY`, dan `SUPABASE_SERVICE_ROLE_KEY` tetap
+didukung sebagai cadangan. Di Vercel, pastikan ketiga variabel `KA_SUPABASE_*`
+menunjuk ke project Supabase yang berisi data produksi — bukan project kosong
+hasil integrasi marketplace.
 
 Tanpa variabel itu, URL fallback ke `https://karyaalamjogja.com`.
 

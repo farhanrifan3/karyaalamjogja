@@ -12,12 +12,14 @@ export function getSupabaseAdmin(): SupabaseClient {
     return client;
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.KA_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey =
+    process.env.KA_SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url || !serviceRoleKey) {
     throw new Error(
-      "CMS membutuhkan NEXT_PUBLIC_SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY di environment server.",
+      "CMS membutuhkan KA_SUPABASE_URL dan KA_SUPABASE_SERVICE_ROLE_KEY (atau NEXT_PUBLIC_SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY) di environment server.",
     );
   }
 
