@@ -106,7 +106,7 @@ public/
   uploads/               # foto yang diunggah lewat panel CMS
 
 content/
-  products.json          # sumber kebenaran katalog (dikelola panel admin)
+  products.json          # cadangan/seed lama; katalog aktif ada di Supabase
   audit-log.json         # riwayat tambah/ubah/hapus/urutkan (dibuat otomatis)
 ```
 
@@ -121,8 +121,9 @@ Teks, harga, foto, dan tautan tidak ditulis di dalam komponen. Semuanya ada di
 `lib/`, dengan `lib/site.ts` untuk identitas dan kontak. Satu bab = satu
 komponen di `components/chapters/`.
 
-Katalog batu adalah pengecualian: isinya dikelola lewat panel CMS dan disimpan
-di `content/products.json`.
+Katalog batu, layanan, testimoni, hero/promo, identitas situs, keuangan, dan
+harga master dikelola lewat panel CMS dan disimpan di Supabase. Berkas di
+`content/` hanya menjadi cadangan/seed lama.
 
 ## CMS katalog
 
@@ -140,20 +141,22 @@ mengatur urutan tanpa membuka kode.
   dan bisa dipilih lagi.
 - Foto unggahan disajikan lewat route `/uploads/[...file]` karena berkas yang
   dibuat setelah build tidak masuk manifes statis Next.
-- Perubahan disimpan ke `content/products.json` dan dicatat di
+- Perubahan katalog disimpan ke tabel `products` di Supabase dan dicatat di
   `content/audit-log.json` (tambah/ubah/hapus/urutkan). Halaman publik
   direvalidasi otomatis setelah simpan.
-- Set `CMS_GIT_COMMIT=1` bila ingin setiap perubahan konten otomatis menjadi
-  commit git. Hanya `content/` dan `public/uploads/` yang ikut di-commit.
+- Modul keuangan memakai tabel `finance_settings` dan `finance_transactions`.
+- Harga master memakai tabel `hero_promo` dengan `type = "price"` selama tabel
+  `prices` khusus belum tersedia.
+- Set `CMS_GIT_COMMIT=1` bila ingin setiap perubahan audit/berkas konten
+  otomatis menjadi commit git.
 
 ### Penyimpanan dan deploy
 
-CMS menulis ke filesystem proyek. Itu cocok untuk `npm run dev`, `npm start`
-di VPS, atau komputer pemilik usaha. Di platform serverless seperti Vercel,
-filesystem produksi bersifat read-only dan tidak persisten, sehingga panel
-admin perlu dijalankan di mesin yang punya disk tulis (lalu di-push), atau
-lapisan penyimpanan diganti ke git/GitHub API atau blob storage. Halaman publik
-sendiri tetap statis dan tidak memuat JavaScript CMS.
+Data konten, keuangan, dan harga tersimpan di Supabase sehingga tetap persisten
+di Vercel. Yang masih memakai filesystem adalah unggahan foto baru dan audit
+log. Di Vercel filesystem bersifat read-only, jadi unggahan foto memerlukan
+`CMS_STORAGE=github` beserta `GITHUB_TOKEN` dan `GITHUB_REPO`, atau penyimpanan
+blob. Halaman publik sendiri tetap statis dan tidak memuat JavaScript CMS.
 
 ### Konfigurasi panel
 

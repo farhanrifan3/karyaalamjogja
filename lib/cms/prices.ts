@@ -1,8 +1,14 @@
-import fs from "fs/promises";
-import path from "path";
-import { commitContent } from "@/lib/cms/git";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
-const PRICES_PATH = "content/prices.json";
+/**
+ * Harga master disimpan sebagai baris `hero_promo` dengan `type = "price"`.
+ * Tabel `prices` belum tersedia di project Supabase, sedangkan tabel
+ * `hero_promo` sudah menjadi wadah konten generik (hero, promo, pengaturan).
+ * Query publik selalu memfilter `type`, jadi baris harga tidak ikut tampil.
+ */
+const PRICE_TYPE = "price";
+const PRICE_COLUMNS =
+  "id, title, label, alt, harga_normal, harga_promo, description, urutan";
 
 export type PriceItem = {
   id: string;
@@ -20,31 +26,61 @@ type StoreFile = {
   items: PriceItem[];
 };
 
-export async function getPricesStore(): Promise<StoreFile> {
-  try {
-    const raw = await fs.readFile(path.join(process.cwd(), PRICES_PATH), "utf-8");
-    return JSON.parse(raw);
-  } catch {
-    return {
-      version: 1,
-      updatedAt: new Date().toISOString(),
-      items: [
-        { id: "andesit-bakar-15x30", name: "Andesit Bakar Polos 15x30 cm", category: "Batu Andesit", unit: "m²", buyPrice: 85000, sellPrice: 115000, notes: "Standar ±1.2 cm" },
-        { id: "andesit-bakar-20x40", name: "Andesit Bakar Polos 20x40 cm", category: "Batu Andesit", unit: "m²", buyPrice: 95000, sellPrice: 135000, notes: "Standar ±1.2 cm" },
-        { id: "andesit-bakar-30x60", name: "Andesit Bakar Polos 30x60 cm", category: "Batu Andesit", unit: "m²", buyPrice: 120000, sellPrice: 165000, notes: "Standar ±1.2 cm" },
-        { id: "candi-15x30", name: "Batu Candi Alur / Rata Alam 15x30 cm", category: "Batu Candi", unit: "m²", buyPrice: 75000, sellPrice: 105000, notes: "Hitam pekat" },
-        { id: "koral-putih-sak", name: "Koral Putih Karung (±10 kg)", category: "Koral", unit: "sak", buyPrice: 28000, sellPrice: 40000, notes: "Taman & hiasan" },
-        { id: "palimanan-20x40", name: "Batu Palimanan Rata Alam 20x40 cm", category: "Batu Palimanan", unit: "m²", buyPrice: 110000, sellPrice: 155000, notes: "Krem berurat" },
-        { id: "jasa-kolam-koi", name: "Jasa Pembuatan Kolam Koi (Konstruksi)", category: "Jasa Konstruksi", unit: "m²", buyPrice: 650000, sellPrice: 900000, notes: "Termasuk sistem chamber & kedap air" },
-        { id: "jasa-pasang", name: "Jasa Pemasangan Batu Alam", category: "Jasa Pemasangan", unit: "m²", buyPrice: 150000, sellPrice: 250000, notes: "Tenaga pasang profesional" }
-      ],
-    };
-  }
+type PriceRow = {
+  id: string;
+  title: string | null;
+  label: string | null;
+  alt: string | null;
+  harga_normal: string | null;
+  harga_promo: string | null;
+  description: string | null;
+  urutan: number | null;
+};
+
+function mapPrice(row: PriceRow): PriceItem {
+  return {
+    id: row.id,
+    name: row.title ?? "",
+    category: row.label ?? "",
+    unit: row.alt ?? "",
+    buyPrice: Number(row.harga_normal ?? 0),
+    sellPrice: Number(row.harga_promo ?? 0),
+    notes: row.description ?? "",
+  };
 }
 
-export async function savePricesStore(store: StoreFile): Promise<void> {
-  store.updatedAt = new Date().toISOString();
-  await fs.writeFile(path.join(process.cwd(), PRICES_PATH), JSON.stringify(store, null, 2), "utf-8");
+function toRow(item: PriceItem, urutan: number) {
+  return {
+    id: item.id,
+    type: PRICE_TYPE,
+    title: item.name,
+    label: item.category,
+    alt: item.unit,
+    harga_normal: String(item.buyPrice),
+    harga_promo: String(item.sellPrice),
+    description: item.notes ?? "",
+    urutan,
+    aktif: true,
+  };
+}
+
+export async function getPricesStore(): Promise<StoreFile> {
+  const { data, error } = await getSupabaseAdmin()
+    .from("hero_promo")
+    .select(PRICE_COLUMNS)
+    .eq("type", PRICE_TYPE)
+    .order("urutan", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error) {
+    throw new Error(`Gagal membaca harga dari Supabase: ${error.message}`);
+  }
+
+  return {
+    version: 1,
+    updatedAt: new Date().toISOString(),
+    items: ((data ?? []) as PriceRow[]).map(mapPrice),
+  };
 }
 
 export async function getAllPrices(): Promise<PriceItem[]> {
@@ -53,24 +89,57 @@ export async function getAllPrices(): Promise<PriceItem[]> {
 }
 
 export async function savePriceItem(item: PriceItem): Promise<void> {
-  const store = await getPricesStore();
-  const idx = store.items.findIndex((p) => p.id === item.id);
-  if (idx >= 0) {
-    store.items[idx] = item;
-  } else {
-    store.items.push(item);
+  const admin = getSupabaseAdmin();
+
+  const { data: existing, error: lookupError } = await admin
+    .from("hero_promo")
+    .select("id, urutan")
+    .eq("id", item.id)
+    .eq("type", PRICE_TYPE)
+    .maybeSingle();
+
+  if (lookupError) {
+    throw new Error(
+      `Gagal memeriksa item harga di Supabase: ${lookupError.message}`,
+    );
   }
-  await savePricesStore(store);
-  try {
-    await commitContent([PRICES_PATH], `Save price item: ${item.name}`);
-  } catch {}
+
+  let urutan = existing?.urutan;
+  if (typeof urutan !== "number") {
+    const { data: last, error: orderError } = await admin
+      .from("hero_promo")
+      .select("urutan")
+      .eq("type", PRICE_TYPE)
+      .order("urutan", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (orderError) {
+      throw new Error(
+        `Gagal menentukan urutan harga di Supabase: ${orderError.message}`,
+      );
+    }
+
+    urutan = (last?.urutan ?? 0) + 1;
+  }
+
+  const { error } = await admin
+    .from("hero_promo")
+    .upsert(toRow(item, urutan), { onConflict: "id" });
+
+  if (error) {
+    throw new Error(`Gagal menyimpan harga ke Supabase: ${error.message}`);
+  }
 }
 
 export async function deletePriceItem(id: string): Promise<void> {
-  const store = await getPricesStore();
-  store.items = store.items.filter((p) => p.id !== id);
-  await savePricesStore(store);
-  try {
-    await commitContent([PRICES_PATH], `Delete price item ${id}`);
-  } catch {}
+  const { error } = await getSupabaseAdmin()
+    .from("hero_promo")
+    .delete()
+    .eq("id", id)
+    .eq("type", PRICE_TYPE);
+
+  if (error) {
+    throw new Error(`Gagal menghapus harga dari Supabase: ${error.message}`);
+  }
 }
