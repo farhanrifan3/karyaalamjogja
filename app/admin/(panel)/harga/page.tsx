@@ -81,7 +81,7 @@ export default async function AdminPricesPage({
             {editingItem ? `Ubah Item: ${editingItem.name}` : "Tambah Item Harga Master Baru"}
           </h3>
           <form action={savePriceAction} className="admin-form-wrap">
-            <input type="hidden" name="id" value={editingItem ? editingItem.id : `price-${Date.now()}`} />
+            <input type="hidden" name="id" value={editingItem ? editingItem.id : ""} />
             <div className="admin-fields">
               <div className="admin-fields__pair">
                 <div className="admin-field">

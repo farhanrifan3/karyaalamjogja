@@ -101,7 +101,6 @@ export default async function AdminHeroPromoPage() {
         <div style={{ borderTop: "1px solid var(--a-line)", paddingTop: "1.5rem" }}>
           <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Tambah / Buat Promo Baru</h3>
           <form action={savePromoAction} className="admin-form-wrap">
-            <input type="hidden" name="id" value={`promo-${Date.now()}`} />
             <div className="admin-fields">
               <div className="admin-fields__pair">
                 <div className="admin-field">
