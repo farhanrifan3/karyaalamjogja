@@ -39,6 +39,9 @@ export function ProfileSection({ profil }: ProfileSectionProps) {
               loading="lazy"
               sizes="(max-width: 900px) 92vw, 46vw"
             />
+            <span className="profile__side" aria-hidden="true">
+              Sleman · Sejak 1986
+            </span>
             <div className="profile__badge">
               <strong>{years} tahun</strong>
               <span>Belajar dari batu</span>
