@@ -106,9 +106,6 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
                 {link.label}
               </Link>
             ))}
-            <Link href="/admin" style={{ color: "var(--lime)" }}>
-              Admin / Kasir
-            </Link>
           </nav>
 
           <div className="head__actions">
@@ -166,10 +163,6 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
                 <ChevronRight />
               </Link>
             ))}
-            <Link href="/admin" onClick={closeDrawer}>
-              Admin / Kasir
-              <ChevronRight />
-            </Link>
           </nav>
           <div className="drawer__foot">
             <a
