@@ -4,23 +4,20 @@ import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/lib/cms/auth";
 import { redirectWithAdminFeedback } from "@/lib/cms/admin-feedback";
-import { getStorage } from "@/lib/cms/storage";
-
-const MEDIA_PATTERN =
-  /^\/(?:images|uploads)\/[A-Za-z0-9._-]+\.(?:jpe?g|png|webp|avif)$/i;
+import { deleteMedia, isManagedImage } from "@/lib/cms/media";
 
 export async function deleteMediaAction(formData: FormData): Promise<void> {
   await requireAdmin();
 
   const path = String(formData.get("path") ?? "").trim();
 
-  if (!MEDIA_PATTERN.test(path)) {
+  if (!isManagedImage(path)) {
     redirectWithAdminFeedback("/admin/media", "media-delete-failed");
   }
 
   let deleteFailed = false;
   try {
-    await getStorage().remove(`public${path}`);
+    await deleteMedia(path);
   } catch (error) {
     console.error("[cms] gagal menghapus media:", error);
     deleteFailed = true;

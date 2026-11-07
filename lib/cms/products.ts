@@ -1,10 +1,8 @@
 import { randomBytes } from "node:crypto";
 
 import type { Product } from "@/lib/types";
-import { getStorage, type StorageEntry } from "@/lib/cms/storage";
+import { getStorage } from "@/lib/cms/storage";
 import {
-  IMAGE_PATTERN,
-  MAX_UPLOAD_BYTES,
   cleanText,
   parseSizes,
   validateProductDraft,
@@ -14,8 +12,6 @@ import {
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 const AUDIT_PATH = "content/audit-log.json";
-const UPLOAD_DIR = "public/uploads";
-const IMAGE_DIR = "public/images";
 const FALLBACK_IMAGE = "/images/batu-andesit.jpg";
 const MAX_AUDIT_ENTRIES = 400;
 
@@ -453,110 +449,11 @@ export async function moveProduct(
   });
 }
 
-function detectImageExtension(buffer: Buffer): string | null {
-  if (buffer.length < 12) {
-    return null;
-  }
-
-  if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
-    return "jpg";
-  }
-
-  if (
-    buffer[0] === 0x89 &&
-    buffer[1] === 0x50 &&
-    buffer[2] === 0x4e &&
-    buffer[3] === 0x47
-  ) {
-    return "png";
-  }
-
-  if (
-    buffer.toString("ascii", 0, 4) === "RIFF" &&
-    buffer.toString("ascii", 8, 12) === "WEBP"
-  ) {
-    return "webp";
-  }
-
-  if (buffer.toString("ascii", 4, 8) === "ftyp") {
-    const brand = buffer.toString("ascii", 8, 12);
-    if (brand === "avif" || brand === "avis") {
-      return "avif";
-    }
-  }
-
-  return null;
-}
-
-export async function saveUpload(file: File): Promise<string> {
-  if (file.size === 0) {
-    throw new Error("Berkas foto kosong.");
-  }
-
-  if (file.size > MAX_UPLOAD_BYTES) {
-    throw new Error(
-      `Ukuran foto maksimal ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB.`,
-    );
-  }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const extension = detectImageExtension(buffer);
-  if (!extension) {
-    throw new Error("Format foto harus JPG, PNG, WebP, atau AVIF.");
-  }
-
-  const originalName = file.name.replace(/\.[^.]+$/, "");
-  const base = slugify(originalName) || "foto";
-  const filename = `${base}-${Date.now().toString(36)}-${randomBytes(2).toString("hex")}.${extension}`;
-
-  await getStorage().commit(
-    [{ path: `${UPLOAD_DIR}/${filename}`, data: buffer }],
-    `content: unggah foto katalog ${filename}`,
-  );
-
-  return `/uploads/${filename}`;
-}
-
-export async function assertImageExists(publicPath: string): Promise<void> {
-  if (!IMAGE_PATTERN.test(publicPath)) {
-    throw new Error("Path foto tidak dikenal.");
-  }
-
-  const exists = await getStorage().exists(`public${publicPath}`);
-  if (!exists) {
-    throw new Error("Foto tidak ditemukan.");
-  }
-}
-
-export type LibraryImage = {
-  path: string;
-  label: string;
-};
-
-export async function listLibraryImages(): Promise<LibraryImage[]> {
-  const storage = getStorage();
-  const [uploads, images] = await Promise.all([
-    storage.listDir(UPLOAD_DIR),
-    storage.listDir(IMAGE_DIR),
-  ]);
-
-  const collect = (
-    entries: StorageEntry[],
-    prefix: string,
-  ): LibraryImage[] =>
-    entries
-      .filter(
-        (entry) =>
-          entry.type === "file" &&
-          /\.(?:jpe?g|png|webp|avif)$/i.test(entry.name),
-      )
-      .map((entry) => ({
-        path: `${prefix}/${entry.name}`,
-        label: entry.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
-      }));
-
-  return [
-    ...collect(uploads, "/uploads"),
-    ...collect(images, "/images"),
-  ];
-}
+// Fungsi media dipindahkan ke lib/cms/media.ts agar dipakai bersama oleh
+// katalog, layanan, hero/promo, profil, dan media library.
+export {
+  assertImageExists,
+  listLibraryImages,
+  saveUpload,
+  type LibraryImage,
+} from "@/lib/cms/media";

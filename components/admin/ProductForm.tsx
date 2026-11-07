@@ -326,7 +326,7 @@ export function ProductForm({ product, library, categories }: ProductFormProps) 
               <option value="">Pilih dari galeri</option>
               {library.map((image) => (
                 <option key={image.path} value={image.path}>
-                  {image.path.startsWith("/uploads/") ? "Baru: " : ""}
+                  {!image.path.startsWith("/images/") ? "Baru: " : ""}
                   {image.label}
                 </option>
               ))}

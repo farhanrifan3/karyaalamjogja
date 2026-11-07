@@ -1,5 +1,5 @@
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
-import { getStorage } from "@/lib/cms/storage";
+import { uploadImage } from "@/lib/cms/media";
 
 export type ServiceItem = {
   id: string;
@@ -71,21 +71,10 @@ export async function saveServicesContent(store: ServicesStore): Promise<void> {
 }
 
 export async function handleServiceImageUpload(formData: FormData): Promise<string | null> {
-  const file = formData.get("imageFile") as File;
-  if (!file || typeof file.arrayBuffer !== "function" || file.size === 0) {
+  const file = formData.get("imageFile");
+  if (!(file instanceof File) || file.size === 0) {
     return null;
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const storage = getStorage();
-  const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-  const filePath = `public/uploads/${filename}`;
-  const publicPath = `/uploads/${filename}`;
-
-  await storage.commit(
-    [{ path: filePath, data: buffer }],
-    `Upload service image: ${filename}`,
-  );
-
-  return publicPath;
+  return uploadImage(file);
 }

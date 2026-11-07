@@ -42,7 +42,10 @@ export const PRODUCT_STATUSES: Array<{ value: ProductStatus; label: string }> = 
   { value: "draft", label: "Draft (belum tampil)" },
 ];
 
-export const IMAGE_PATTERN = /^\/(?:images|uploads)\/[A-Za-z0-9._-]+\.(?:jpe?g|png|webp|avif)$/;
+// Foto lama tersimpan di /images atau /uploads. Foto baru berada di bucket
+// publik Supabase Storage `karya-alam-media`.
+export const IMAGE_PATTERN =
+  /^(?:\/(?:images|uploads)\/[A-Za-z0-9._-]+\.(?:jpe?g|png|webp|avif)|https:\/\/[A-Za-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\/karya-alam-media\/[A-Za-z0-9._-]+\.(?:jpe?g|png|webp|avif))$/;
 
 // Vercel membatasi body request serverless sekitar 4,5 MB, jadi foto dibatasi
 // 4 MB agar unggahan tetap berhasil di produksi.

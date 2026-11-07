@@ -152,11 +152,13 @@ mengatur urutan tanpa membuka kode.
 
 ### Penyimpanan dan deploy
 
-Data konten, keuangan, dan harga tersimpan di Supabase sehingga tetap persisten
-di Vercel. Yang masih memakai filesystem adalah unggahan foto baru dan audit
-log. Di Vercel filesystem bersifat read-only, jadi unggahan foto memerlukan
-`CMS_STORAGE=github` beserta `GITHUB_TOKEN` dan `GITHUB_REPO`, atau penyimpanan
-blob. Halaman publik sendiri tetap statis dan tidak memuat JavaScript CMS.
+Data konten, keuangan, harga, dan foto unggahan tersimpan di Supabase sehingga
+tetap persisten di Vercel. Foto baru masuk ke bucket publik
+`karya-alam-media` melalui Supabase Storage. Yang masih memakai filesystem
+adalah audit log; di Vercel filesystem bersifat read-only, jadi audit log
+memerlukan `CMS_STORAGE=github` beserta `GITHUB_TOKEN` dan `GITHUB_REPO` bila
+ingin persisten. Halaman publik sendiri tetap statis dan tidak memuat
+JavaScript CMS.
 
 ### Konfigurasi panel
 
