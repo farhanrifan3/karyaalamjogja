@@ -889,6 +889,14 @@ section[id] {
   color: var(--muted);
 }
 
+.promo-swipe-hint {
+  display: none;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+}
+
 /* ---------- Categories ---------- */
 
 .cat-grid {
@@ -3056,7 +3064,29 @@ a.contact-row__value:hover {
   }
 
   .promo-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .promo-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .promo {
+    flex: 0 0 86%;
+    max-width: 380px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .promo-swipe-hint {
+    display: block;
   }
 
   .cat-grid {

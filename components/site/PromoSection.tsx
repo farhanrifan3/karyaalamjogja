@@ -88,6 +88,11 @@ export function PromoSection({
             );
           })}
         </div>
+        {promos.length > 1 ? (
+          <p className="promo-swipe-hint" aria-hidden="true">
+            Geser untuk melihat promo lainnya →
+          </p>
+        ) : null}
         <p className="promo-note">
           Harga promo berlaku selama periode tayang. Ketersediaan material dan
           jadwal pengerjaan dikonfirmasi sebelum transaksi.
