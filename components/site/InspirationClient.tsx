@@ -48,7 +48,7 @@ export function InspirationClient({ gallery }: { gallery: GalleryItem[] }) {
                 alt={item.alt}
                 fill
                 loading="lazy"
-                sizes="(max-width: 720px) 92vw, 46vw"
+                sizes="46vw"
               />
               <figcaption>
                 <strong>{item.caption}</strong>
@@ -57,6 +57,12 @@ export function InspirationClient({ gallery }: { gallery: GalleryItem[] }) {
             </button>
           ))}
         </div>
+
+        {gallery.length > 2 ? (
+          <p className="insp-swipe-hint" aria-hidden="true">
+            Geser untuk melihat foto lainnya →
+          </p>
+        ) : null}
       </div>
 
       <dialog

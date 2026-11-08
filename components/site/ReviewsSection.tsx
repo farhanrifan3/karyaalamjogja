@@ -101,6 +101,12 @@ export function ReviewsSection({
           ))}
         </div>
 
+        {website.length > 1 ? (
+          <p className="review-swipe-hint" aria-hidden="true">
+            Geser untuk melihat ulasan lainnya →
+          </p>
+        ) : null}
+
         <div className="review-tools">
           <div className="card">
             <h3 className="card__title">Tulis ulasan Anda.</h3>
